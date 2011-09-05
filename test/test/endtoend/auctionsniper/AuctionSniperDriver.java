@@ -1,6 +1,7 @@
 package test.endtoend.auctionsniper;
 
 import static org.hamcrest.CoreMatchers.*;
+import auctionsniper.Main;
 
 import com.objogate.wl.swing.AWTEventQueueProber;
 import com.objogate.wl.swing.driver.JFrameDriver;
