@@ -6,5 +6,7 @@
 	<classpathentry exported="true" kind="lib" path="/home/tomita/programs/java/windowlicker/build/jars/windowlicker-core-a.jar"/>
 	<classpathentry exported="true" kind="lib" path="/home/tomita/programs/java/windowlicker/build/jars/windowlicker-swing-a.jar"/>
 	<classpathentry kind="lib" path="/usr/share/java/hamcrest-core-1.1.jar"/>
+	<classpathentry kind="lib" path="/home/tomita/programs/java/smack_3_2_1/smack.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
