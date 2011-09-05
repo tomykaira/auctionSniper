@@ -4,9 +4,10 @@
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry exported="true" kind="lib" path="/home/tomita/programs/java/windowlicker/build/jars/windowlicker-core-a.jar"/>
-	<classpathentry exported="true" kind="lib" path="/home/tomita/programs/java/windowlicker/build/jars/windowlicker-swing-a.jar"/>
+	<classpathentry exported="true" kind="lib" path="/home/tomita/programs/java/windowlicker/build/jars/windowlicker-swing-a.jar" sourcepath="/home/tomita/programs/java/windowlicker/build/classes/windowlicker-swing-a.jar"/>
 	<classpathentry kind="lib" path="/usr/share/java/hamcrest-core-1.1.jar"/>
 	<classpathentry kind="lib" path="/home/tomita/programs/java/smack_3_2_1/smack.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="/usr/share/java/hamcrest-library-1.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
