@@ -1,5 +1,8 @@
 package auctionsniper;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 import javax.swing.SwingUtilities;
 
 import org.jivesoftware.smack.Chat;
@@ -12,8 +15,6 @@ import auctionsniper.ui.MainWindow;
 
 public class Main {
 
-	public static final String STATUS_JOINING = "Joining";
-	public static final String STATUS_LOST = "Lost";
 	private static final int ARG_HOSTNAME = 0;
 	private static final int ARG_USERNAME = 1;
 	private static final int ARG_PASSWORD = 2;
@@ -23,7 +24,7 @@ public class Main {
 	private static final String AUCTION_ID_FORMAT = ITEM_ID_AS_LOGIN + "@%s/" + AUCTION_RESOURCE;
 	public static final String JOIN_COMMAND_FORMAT = "SOLVersion: 1.1; Command: JOIN;";
 	public static final String BID_COMMAND_FORMAT = "SOLVersion: 1.1; Command: Bid; Price: %d;";
-	
+
 	private MainWindow ui;
 	@SuppressWarnings("unused") private Chat notToBeGCd;
 
@@ -34,11 +35,12 @@ public class Main {
 
 	private void startUserInterface() throws Exception {
 		SwingUtilities.invokeAndWait(new Runnable() {
+			@Override
 			public void run() {
 				ui = new MainWindow();
 			}
 		});
-		
+
 	}
 
 
@@ -50,6 +52,7 @@ public class Main {
 
 
 	private void joinAuction(XMPPConnection connection, String itemId) throws XMPPException {
+		disconnectWhenuICloses(connection);
 		Chat chat = connection.getChatManager().createChat(auctionId(itemId, connection),
 				new MessageListener() {
 
@@ -58,7 +61,7 @@ public class Main {
 						SwingUtilities.invokeLater(new Runnable() {
 							@Override
 							public void run() {
-								ui.showStatus(STATUS_LOST);
+								ui.showStatus(MainWindow.STATUS_LOST);
 							}
 						});
 
@@ -66,6 +69,16 @@ public class Main {
 				});
 		this.notToBeGCd = chat;
 		chat.sendMessage(JOIN_COMMAND_FORMAT);
+
+	}
+
+
+	private void disconnectWhenuICloses(final XMPPConnection connection) {
+		ui.addWindowListener(new WindowAdapter() {
+			@Override public void windowClosed(WindowEvent e) {
+				connection.disconnect();
+			}
+		});
 
 	}
 

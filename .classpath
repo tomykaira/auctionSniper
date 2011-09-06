@@ -9,5 +9,6 @@
 	<classpathentry kind="lib" path="/home/tomita/programs/java/smack_3_2_1/smack.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="/usr/share/java/hamcrest-library-1.1.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/jMock2"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

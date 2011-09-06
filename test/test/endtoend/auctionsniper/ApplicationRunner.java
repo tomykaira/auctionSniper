@@ -1,8 +1,8 @@
 package test.endtoend.auctionsniper;
 
-import static auctionsniper.Main.*;
 import static test.endtoend.auctionsniper.FakeAuctionServer.*;
 import auctionsniper.Main;
+import auctionsniper.ui.MainWindow;
 
 public class ApplicationRunner {
 	public static final String SNIPER_ID = "sniper";
@@ -24,11 +24,11 @@ public class ApplicationRunner {
 		thread.setDaemon(true);
 		thread.start();
 		driver = new AuctionSniperDriver(1000);
-		driver.showsSniperStatus(STATUS_JOINING); //test case
+		driver.showsSniperStatus(MainWindow.STATUS_JOINING); //test case
 	}
 
 	public void showsSniperHasLotAcution() {
-		driver.showsSniperStatus(STATUS_LOST); // test case
+		driver.showsSniperStatus(MainWindow.STATUS_LOST); // test case
 	}
 
 	public void stop() {
@@ -38,7 +38,6 @@ public class ApplicationRunner {
 	}
 
 	public void hasShownSniperIsBidding() {
-		// TODO Auto-generated method stub
-
+		driver.showsSniperStatus(MainWindow.STATUS_BIDDING); // test case
 	}
 }

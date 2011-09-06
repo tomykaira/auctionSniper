@@ -19,7 +19,7 @@ import auctionsniper.Main;
 public class FakeAuctionServer {
 	public static final String ITEM_ID_AS_LOGIN = "auction-%s";
 	public static final String AUCTION_RESOURCE = "Auction";
-	public static final String XMPP_HOSTNAME = "tomita-macpro";
+	public static final String XMPP_HOSTNAME = "localhost";
 	private static final String AUCTION_PASSWORD = "auction";
 
 	private final String itemId;
