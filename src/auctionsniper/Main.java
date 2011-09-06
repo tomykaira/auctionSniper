@@ -21,6 +21,8 @@ public class Main {
 	private static final String AUCTION_RESOURCE = "Auction";
 	private static final String ITEM_ID_AS_LOGIN = "auction-%s";
 	private static final String AUCTION_ID_FORMAT = ITEM_ID_AS_LOGIN + "@%s/" + AUCTION_RESOURCE;
+	public static final String JOIN_COMMAND_FORMAT = "SOLVersion: 1.1; Command: JOIN;";
+	public static final String BID_COMMAND_FORMAT = "SOLVersion: 1.1; Command: Bid; Price: %d;";
 	
 	private MainWindow ui;
 	@SuppressWarnings("unused") private Chat notToBeGCd;
@@ -63,7 +65,7 @@ public class Main {
 					}
 				});
 		this.notToBeGCd = chat;
-		chat.sendMessage(new Message());
+		chat.sendMessage(JOIN_COMMAND_FORMAT);
 
 	}
 
