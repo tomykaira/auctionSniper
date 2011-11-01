@@ -32,7 +32,7 @@ public class ApplicationRunner {
 	}
 
 	public void showsSniperHasWonAcution() {
-		driver.showsSniperStatus(MainWindow.STATUS_WINNING); // test case
+		driver.showsSniperStatus(MainWindow.STATUS_WON); // test case
 	}
 
 	public void stop() {
