@@ -57,7 +57,7 @@ public class Main {
 
 		Auction auction = new XMPPAuction(chat);
 		SniperListener listener = new SniperStateDisplayer(ui);
-		chat.addMessageListener(new AuctionMessageTranslator(new AuctionSniper(auction, listener)));
+		chat.addMessageListener(new AuctionMessageTranslator(connection.getUser(), new AuctionSniper(auction, listener)));
 		auction.join();
 	}
 
