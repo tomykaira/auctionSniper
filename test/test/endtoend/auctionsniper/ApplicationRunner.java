@@ -31,6 +31,10 @@ public class ApplicationRunner {
 		driver.showsSniperStatus(MainWindow.STATUS_LOST); // test case
 	}
 
+	public void showsSniperHasWonAcution() {
+		driver.showsSniperStatus(MainWindow.STATUS_WINNING); // test case
+	}
+
 	public void stop() {
 		if (driver != null) {
 			driver.dispose();
@@ -39,5 +43,9 @@ public class ApplicationRunner {
 
 	public void hasShownSniperIsBidding() {
 		driver.showsSniperStatus(MainWindow.STATUS_BIDDING); // test case
+	}
+
+	public void hasShownSniperIsWinning() {
+		driver.showsSniperStatus(MainWindow.STATUS_WINNING); // test case
 	}
 }
