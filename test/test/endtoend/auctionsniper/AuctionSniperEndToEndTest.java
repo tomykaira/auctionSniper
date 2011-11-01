@@ -14,7 +14,7 @@ public class AuctionSniperEndToEndTest {
 		application.startBiddingIn(auction);
 		auction.hasReceivedJoinRequestFrom(ApplicationRunner.SNIPER_XMPP_ID);
 		auction.announceClosed();
-		application.showsSniperHasLotAcution();
+		application.showsSniperHasLostAcution();
 	}
 
 	@Test
@@ -29,7 +29,7 @@ public class AuctionSniperEndToEndTest {
 		auction.hasReceivedBid(1098, ApplicationRunner.SNIPER_XMPP_ID);
 
 		auction.announceClosed();
-		application.showsSniperHasLotAcution();
+		application.showsSniperHasLostAcution();
 	}
 
 	@After
