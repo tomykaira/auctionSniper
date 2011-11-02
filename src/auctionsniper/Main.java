@@ -136,6 +136,16 @@ public class Main {
 			sniperStatusChanged(state, MainWindow.STATUS_BIDDING);
 		}
 
+		@Override
+		public void sniperWon() {
+			showStatus(MainWindow.STATUS_WON);
+		}
+
+		@Override
+		public void sniperJoining(SniperState state) {
+			sniperStatusChanged(state, MainWindow.STATUS_JOINING);
+		}
+
 		private void showStatus(final String statusText) {
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
@@ -152,11 +162,6 @@ public class Main {
 					ui.sniperStatusChanged(sniperState, statusText);
 				}
 			});
-		}
-
-		@Override
-		public void sniperWon() {
-			showStatus(MainWindow.STATUS_WON);
 		}
 
 	}

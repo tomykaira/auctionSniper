@@ -11,6 +11,7 @@ public class AuctionSniper implements AuctionEventListener {
 		this.itemId = itemId;
 		this.auction = auction;
 		this.sniperListener = sniperListener;
+		sniperListener.sniperJoining(new SniperState(itemId, 0, 0));
 	}
 
 	@Override
