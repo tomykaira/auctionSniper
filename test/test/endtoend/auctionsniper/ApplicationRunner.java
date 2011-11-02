@@ -9,9 +9,11 @@ public class ApplicationRunner {
 	public static final String SNIPER_PASSWORD = "sniper";
 	public static final String SNIPER_XMPP_ID = SNIPER_ID + "@" + XMPP_HOSTNAME + "/Auction";
 	private AuctionSniperDriver driver;
+	private String itemId;
 
 	// trigger an event to drive the test
 	public void startBiddingIn(final FakeAuctionServer auction) {
+		itemId = auction.getItemId();
 		Thread thread = new Thread("Test Application") {
 			@Override public void run() {
 				try {
@@ -24,15 +26,15 @@ public class ApplicationRunner {
 		thread.setDaemon(true);
 		thread.start();
 		driver = new AuctionSniperDriver(1000);
-		driver.showsSniperStatus(MainWindow.STATUS_JOINING); //test case
+		driver.showsSniperStatus(itemId, 0, 0, MainWindow.STATUS_JOINING); //test case
 	}
 
-	public void showsSniperHasLostAcution() {
-		driver.showsSniperStatus(MainWindow.STATUS_LOST); // test case
+	public void showsSniperHasLostAcution(int lastPrice, int lastBid) {
+		driver.showsSniperStatus(itemId, lastPrice, lastBid, MainWindow.STATUS_LOST); // test case
 	}
 
-	public void showsSniperHasWonAcution() {
-		driver.showsSniperStatus(MainWindow.STATUS_WON); // test case
+	public void showsSniperHasWonAcution(int lastPrice) {
+		driver.showsSniperStatus(itemId, lastPrice, lastPrice, MainWindow.STATUS_WON); // test case
 	}
 
 	public void stop() {
@@ -41,11 +43,11 @@ public class ApplicationRunner {
 		}
 	}
 
-	public void hasShownSniperIsBidding() {
-		driver.showsSniperStatus(MainWindow.STATUS_BIDDING); // test case
+	public void hasShownSniperIsBidding(int lastPrice, int lastBid) {
+		driver.showsSniperStatus(itemId, lastPrice, lastBid, MainWindow.STATUS_BIDDING); // test case
 	}
 
-	public void hasShownSniperIsWinning() {
-		driver.showsSniperStatus(MainWindow.STATUS_WINNING); // test case
+	public void hasShownSniperIsWinning(int winningBid) {
+		driver.showsSniperStatus(itemId, winningBid, winningBid, MainWindow.STATUS_WINNING); // test case
 	}
 }
