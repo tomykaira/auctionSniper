@@ -133,14 +133,23 @@ public class Main {
 
 		@Override
 		public void sniperBidding(SniperState state) {
-			showStatus(MainWindow.STATUS_BIDDING);
+			sniperStatusChanged(state, MainWindow.STATUS_BIDDING);
 		}
 
-		private void showStatus(final String status) {
+		private void showStatus(final String statusText) {
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
-					ui.showStatus(status);
+					ui.showStatus(statusText);
+				}
+			});
+		}
+
+		private void sniperStatusChanged(final SniperState sniperState, final String statusText) {
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					ui.sniperStatusChanged(sniperState, statusText);
 				}
 			});
 		}
