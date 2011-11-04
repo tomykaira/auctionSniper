@@ -4,7 +4,6 @@ package auctionsniper;
 public class AuctionSniper implements AuctionEventListener {
 	private SniperListener sniperListener;
 	private Auction auction;
-	private boolean isWinning = false;
 	private SniperSnapshot snapshot;
 
 	public AuctionSniper(String itemId, Auction auction, SniperListener sniperListener) {

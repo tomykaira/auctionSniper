@@ -122,43 +122,6 @@ public class Main {
 		}
 
 		@Override
-		public void sniperLost() {
-			showStatus(MainWindow.STATUS_LOST);
-		}
-
-		@Override
-		public void sniperWinning() {
-			showStatus(MainWindow.STATUS_WINNING);
-		}
-
-		@Override
-		public void sniperBidding(SniperSnapshot snapshot) {
-			sniperStatusChanged(snapshot, MainWindow.STATUS_BIDDING);
-		}
-
-		@Override
-		public void sniperWon() {
-			showStatus(MainWindow.STATUS_WON);
-		}
-
-		@Override
-		public void sniperJoining(SniperSnapshot snapshot) {
-			sniperStatusChanged(snapshot, MainWindow.STATUS_JOINING);
-		}
-
-		private void showStatus(final String statusText) {
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					ui.showStatus(statusText);
-				}
-			});
-		}
-
-		private void sniperStatusChanged(final SniperSnapshot sniperSnapshot, final String statusText) {
-		}
-
-		@Override
 		public void sniperStateChanged(final SniperSnapshot sniperSnapshot) {
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
