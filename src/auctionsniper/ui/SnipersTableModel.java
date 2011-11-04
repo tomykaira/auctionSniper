@@ -26,6 +26,7 @@ public class SnipersTableModel extends AbstractTableModel implements SniperListe
 		return Column.at(columnIndex).valueIn(sniperSnapshot);
 	}
 
+	@Override
 	public void sniperStateChanged(SniperSnapshot newSnapshot) {
 		sniperSnapshot = newSnapshot;
 		fireTableRowsUpdated(0, 0);
@@ -33,5 +34,10 @@ public class SnipersTableModel extends AbstractTableModel implements SniperListe
 
 	public static String textFor(SniperState state) {
 		return STATUS_TEXT[state.ordinal()];
+	}
+
+	@Override
+	public String getColumnName(int column) {
+		return Column.at(column).name;
 	}
 }
