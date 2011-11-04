@@ -156,10 +156,14 @@ public class Main {
 		}
 
 		private void sniperStatusChanged(final SniperSnapshot sniperSnapshot, final String statusText) {
+		}
+
+		@Override
+		public void sniperStateChanged(final SniperSnapshot sniperSnapshot) {
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
-					ui.sniperStatusChanged(sniperSnapshot, statusText);
+					ui.sniperStateChanged(sniperSnapshot);
 				}
 			});
 		}

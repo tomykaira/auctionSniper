@@ -5,11 +5,9 @@ public class AuctionSniper implements AuctionEventListener {
 	private SniperListener sniperListener;
 	private Auction auction;
 	private boolean isWinning = false;
-	private String itemId;
 	private SniperSnapshot snapshot;
 
 	public AuctionSniper(String itemId, Auction auction, SniperListener sniperListener) {
-		this.itemId = itemId;
 		this.auction = auction;
 		this.sniperListener = sniperListener;
 		this.snapshot = SniperSnapshot.joining(itemId);

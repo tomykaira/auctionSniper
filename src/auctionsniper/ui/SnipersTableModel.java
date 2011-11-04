@@ -3,9 +3,10 @@ package auctionsniper.ui;
 import javax.swing.table.AbstractTableModel;
 
 import auctionsniper.SniperSnapshot;
+import auctionsniper.SniperState;
 
 public class SnipersTableModel extends AbstractTableModel {
-	private static final SniperSnapshot STARTING_UP = new SniperSnapshot("", 0, 0);
+	private static final SniperSnapshot STARTING_UP = new SniperSnapshot("", 0, 0, SniperState.JOINING);
 	private String statusText = MainWindow.STATUS_JOINING;
 	private SniperSnapshot sniperSnapshot = STARTING_UP;
 
