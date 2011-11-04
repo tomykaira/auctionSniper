@@ -1,5 +1,10 @@
 package test.unit.auctionsniper;
 
+import static auctionsniper.SniperState.*;
+import static org.hamcrest.CoreMatchers.*;
+
+import org.hamcrest.FeatureMatcher;
+import org.hamcrest.Matcher;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.States;
@@ -12,6 +17,7 @@ import auctionsniper.AuctionEventListener.PriceSource;
 import auctionsniper.AuctionSniper;
 import auctionsniper.SniperListener;
 import auctionsniper.SniperSnapshot;
+import auctionsniper.SniperState;
 
 @RunWith(JMock.class)
 public class AuctionSniperTest {
@@ -35,7 +41,7 @@ public class AuctionSniperTest {
 	reportsLostWhenAuctionClosedWhenBidding() {
 		context.checking(new Expectations() {{
 			ignoring(auction);
-			allowing(sniperListener).sniperBidding(with(any(SniperSnapshot.class)));
+			allowing(sniperListener).sniperStateChanged(with(aSniperThatIs(BIDDING)));
 				then(sniperSnapshot.is("bidding"));
 			atLeast(1).of(sniperListener).sniperLost();
 				when(sniperSnapshot.is("bidding"));
@@ -64,7 +70,7 @@ public class AuctionSniperTest {
 		final int bid = price + increment;
 		context.checking(new Expectations() {{
 			one(auction).bid(price+increment);
-			atLeast(1).of(sniperListener).sniperBidding(new SniperSnapshot(ITEM_ID, price, bid));
+			atLeast(1).of(sniperListener).sniperBidding(new SniperSnapshot(ITEM_ID, price, bid, SniperState.BIDDING));
 		}});
 
 		sniper.currentPrice(price, increment, PriceSource.FromOtherBidder);
@@ -73,10 +79,24 @@ public class AuctionSniperTest {
 	@Test public void
 	reportsIsWinningWhenCurrentPriceComesFromSniper() {
 		context.checking(new Expectations() {{
-			atLeast(1).of(sniperListener).sniperWinning();
+			ignoring(auction);
+			allowing(sniperListener).sniperStateChanged(with(aSniperThatIs(BIDDING)));
+				then(sniperSnapshot.is("bidding"));
+			atLeast(1).of(sniperListener).sniperStateChanged(new SniperSnapshot(ITEM_ID, 135, 135, WINNING));
+				when(sniperSnapshot.is("bidding"));
 		}});
 
-		sniper.currentPrice(200, 10, PriceSource.FromSniper);
+		sniper.currentPrice(123, 12, PriceSource.FromOtherBidder);
+		sniper.currentPrice(135, 45, PriceSource.FromSniper);
+	}
+
+	private Matcher<SniperSnapshot> aSniperThatIs(final SniperState state) {
+		return new FeatureMatcher<SniperSnapshot, SniperState>(equalTo(state), "sniper that is ", "was") {
+			@Override
+			protected SniperState featureValueOf(SniperSnapshot actual) {
+				return actual.state;
+			}
+		};
 	}
 }
 
