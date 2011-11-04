@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import auctionsniper.SniperState;
+import auctionsniper.SniperSnapshot;
 
 public class MainWindow extends JFrame {
 	public static final String MAIN_WINDOW_NAME = "Auction Sniper Main";
@@ -45,7 +45,7 @@ public class MainWindow extends JFrame {
 		snipers.setStatusText(status);
 	}
 
-	public void sniperStatusChanged(SniperState sniperState, String statusText) {
-		snipers.sniperStatusChanged(sniperState, statusText);
+	public void sniperStatusChanged(SniperSnapshot sniperSnapshot, String statusText) {
+		snipers.sniperStatusChanged(sniperSnapshot, statusText);
 	}
 }

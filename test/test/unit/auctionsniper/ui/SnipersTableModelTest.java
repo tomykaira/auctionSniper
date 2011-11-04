@@ -14,7 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import auctionsniper.SniperState;
+import auctionsniper.SniperSnapshot;
 import auctionsniper.ui.Column;
 import auctionsniper.ui.MainWindow;
 import auctionsniper.ui.SnipersTableModel;
@@ -41,12 +41,12 @@ public class SnipersTableModelTest {
 			one(listener).tableChanged(with(aRowChangedEvent()));
 		}});
 
-		model.sniperStatusChanged(new SniperState("item id", 555, 666), MainWindow.STATUS_BIDDING);
+		model.sniperStatusChanged(new SniperSnapshot("item id", 555, 666), MainWindow.STATUS_BIDDING);
 
 		assertColumnEquals(Column.ITEM_IDENTIFIER, "item id");
 		assertColumnEquals(Column.LAST_PRICE, 555);
 		assertColumnEquals(Column.LAST_BID, 666);
-		assertColumnEquals(Column.SNIPER_STATUS, MainWindow.STATUS_BIDDING);
+		assertColumnEquals(Column.SNIPER_STATE, MainWindow.STATUS_BIDDING);
 	}
 
 	private void assertColumnEquals(Column column, Object expected) {
