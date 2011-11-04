@@ -17,7 +17,6 @@ import org.junit.runner.RunWith;
 import auctionsniper.SniperSnapshot;
 import auctionsniper.SniperState;
 import auctionsniper.ui.Column;
-import auctionsniper.ui.MainWindow;
 import auctionsniper.ui.SnipersTableModel;
 
 @RunWith(JMock.class)
@@ -47,7 +46,7 @@ public class SnipersTableModelTest {
 		assertColumnEquals(Column.ITEM_IDENTIFIER, "item id");
 		assertColumnEquals(Column.LAST_PRICE, 555);
 		assertColumnEquals(Column.LAST_BID, 666);
-		assertColumnEquals(Column.SNIPER_STATE, MainWindow.STATUS_BIDDING);
+		assertColumnEquals(Column.SNIPER_STATE, SnipersTableModel.textFor(SniperState.BIDDING));
 	}
 
 	private void assertColumnEquals(Column column, Object expected) {
