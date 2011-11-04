@@ -10,6 +10,7 @@ import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 
 import auctionsniper.ui.MainWindow;
+import auctionsniper.ui.SnipersTableModel;
 import auctionsniper.xmpp.AuctionMessageTranslator;
 
 public class Main {
@@ -24,6 +25,8 @@ public class Main {
 	public static final String JOIN_COMMAND_FORMAT = "SOLVersion: 1.1; Command: JOIN;";
 	public static final String BID_COMMAND_FORMAT = "SOLVersion: 1.1; Command: Bid; Price: %d;";
 
+	private final SnipersTableModel snipers = new SnipersTableModel();
+
 	private MainWindow ui;
 	@SuppressWarnings("unused") private Chat notToBeGCd;
 
@@ -36,7 +39,7 @@ public class Main {
 		SwingUtilities.invokeAndWait(new Runnable() {
 			@Override
 			public void run() {
-				ui = new MainWindow();
+				ui = new MainWindow(snipers);
 			}
 		});
 
@@ -56,8 +59,10 @@ public class Main {
 		this.notToBeGCd = chat;
 
 		Auction auction = new XMPPAuction(chat);
-		SniperListener listener = new SniperStateDisplayer(ui);
-		chat.addMessageListener(new AuctionMessageTranslator(connection.getUser(), new AuctionSniper(itemId, auction, listener)));
+		chat.addMessageListener(
+				new AuctionMessageTranslator(
+						connection.getUser(),
+						new AuctionSniper(itemId, auction, new SwingThreadSniperListener(snipers))));
 		auction.join();
 	}
 
@@ -114,19 +119,19 @@ public class Main {
 	};
 
 
-	public class SniperStateDisplayer implements SniperListener {
-		private MainWindow ui;
+	public class SwingThreadSniperListener implements SniperListener {
+		private SniperListener delegate;
 
-		public SniperStateDisplayer(MainWindow ui) {
-			this.ui = ui;
+		public SwingThreadSniperListener(SniperListener delegate) {
+			this.delegate = delegate;
 		}
 
 		@Override
-		public void sniperStateChanged(final SniperSnapshot sniperSnapshot) {
+		public void sniperStateChanged(final SniperSnapshot snapshot) {
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
-					ui.sniperStateChanged(sniperSnapshot);
+					delegate.sniperStateChanged(snapshot);
 				}
 			});
 		}
