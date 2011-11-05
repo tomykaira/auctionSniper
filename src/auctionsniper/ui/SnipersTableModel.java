@@ -39,11 +39,15 @@ public class SnipersTableModel extends AbstractTableModel implements SniperListe
 
 	@Override
 	public void sniperStateChanged(SniperSnapshot newSnapshot) {
+		int row = rowMatching(newSnapshot);
+		snapshots.set(row, newSnapshot);
+		fireTableRowsUpdated(row, row);
+	}
+
+	private int rowMatching(SniperSnapshot newSnapshot) {
 		for (int i=0; i<snapshots.size(); i++) {
-			if(snapshots.get(i).itemId.equals(newSnapshot.itemId)) {
-				snapshots.set(i, newSnapshot);
-				fireTableRowsUpdated(i, i);
-				return;
+			if(newSnapshot.isForSameItemAs(snapshots.get(i))) {
+				return i;
 			}
 		}
 		throw new Defect("No existing Sniper state for " + newSnapshot.itemId);
