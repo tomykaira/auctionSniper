@@ -11,6 +11,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import auctionsniper.UserRequestListener;
+
 public class MainWindow extends JFrame {
 	public static final String MAIN_WINDOW_NAME = "Auction Sniper Main";
 	public static final String SNIPERS_TABLE_NAME = "Snieper Table";
@@ -53,5 +55,9 @@ public class MainWindow extends JFrame {
 		final JTable snipersTable = new JTable(snipers);
 		snipersTable.setName(SNIPERS_TABLE_NAME);
 		return snipersTable;
+	}
+
+	public void addUserRequestListener(UserRequestListener userRequestListener) {
+		// TODO Auto-generated method stub
 	}
 }
