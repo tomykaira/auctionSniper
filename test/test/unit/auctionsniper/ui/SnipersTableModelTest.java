@@ -15,8 +15,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import auctionsniper.SniperSnapshot;
+import auctionsniper.SniperState;
 import auctionsniper.ui.Column;
 import auctionsniper.ui.SnipersTableModel;
+
+import com.objogate.exception.Defect;
 
 @RunWith(JMock.class)
 public class SnipersTableModelTest {
@@ -60,6 +63,40 @@ public class SnipersTableModelTest {
 		model.addSniper(joining);
 		assertEquals(1, model.getRowCount());
 		assertRowMatchesSnapshot(0, joining);
+	}
+
+	@Test public void
+	holdsSnipersInAdditionOrder() {
+		context.checking(new Expectations(){{
+			ignoring(listener);
+		}});
+
+		model.addSniper(SniperSnapshot.joining("item 0"));
+		model.addSniper(SniperSnapshot.joining("item 1"));
+
+		assertEquals("item 0", cellValue(0, Column.ITEM_IDENTIFIER));
+		assertEquals("item 1", cellValue(1, Column.ITEM_IDENTIFIER));
+	}
+
+	@Test public void
+	updatesCorrectRowForSniper() {
+		SniperSnapshot joining = SniperSnapshot.joining("item 0");
+		SniperSnapshot bidding = joining.bidding(200, 300);
+		context.checking(new Expectations(){{
+			ignoring(listener);
+		}});
+
+		model.addSniper(joining);
+		model.addSniper(SniperSnapshot.joining("item 1"));
+
+		model.sniperStateChanged(bidding);
+
+		assertRowMatchesSnapshot(0, bidding);
+	}
+
+	@Test(expected=Defect.class) public void
+	throwsDefectIfNoExistingSniperForAnUpdate() {
+		model.sniperStateChanged(new SniperSnapshot("item 1", 123, 234, SniperState.WINNING));
 	}
 
 	private void assertRowMatchesSnapshot(int row, SniperSnapshot snapshot) {

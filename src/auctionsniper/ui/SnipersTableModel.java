@@ -9,6 +9,8 @@ import auctionsniper.SniperListener;
 import auctionsniper.SniperSnapshot;
 import auctionsniper.SniperState;
 
+import com.objogate.exception.Defect;
+
 public class SnipersTableModel extends AbstractTableModel implements SniperListener {
 	private List<SniperSnapshot> snapshots;
 
@@ -41,8 +43,10 @@ public class SnipersTableModel extends AbstractTableModel implements SniperListe
 			if(snapshots.get(i).itemId.equals(newSnapshot.itemId)) {
 				snapshots.set(i, newSnapshot);
 				fireTableRowsUpdated(i, i);
+				return;
 			}
 		}
+		throw new Defect("No existing Sniper state for " + newSnapshot.itemId);
 	}
 
 	public static String textFor(SniperState state) {
