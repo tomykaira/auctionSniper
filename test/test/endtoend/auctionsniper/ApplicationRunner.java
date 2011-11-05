@@ -11,11 +11,9 @@ public class ApplicationRunner {
 	public static final String SNIPER_PASSWORD = "sniper";
 	public static final String SNIPER_XMPP_ID = SNIPER_ID + "@" + XMPP_HOSTNAME + "/Auction";
 	private AuctionSniperDriver driver;
-	private String itemId;
 
 	// trigger an event to drive the test
 	public void startBiddingIn(final FakeAuctionServer auction) {
-		itemId = auction.getItemId();
 		Thread thread = new Thread("Test Application") {
 			@Override public void run() {
 				try {
@@ -38,8 +36,8 @@ public class ApplicationRunner {
 		driver.showsSniperStatus(SnipersTableModel.textFor(SniperState.LOST)); // test case
 	}
 
-	public void showsSniperHasWonAcution(int lastPrice) {
-		driver.showsSniperStatus(itemId, lastPrice, lastPrice,
+	public void showsSniperHasWonAcution(FakeAuctionServer auction, int lastPrice) {
+		driver.showsSniperStatus(auction.getItemId(), lastPrice, lastPrice,
 				SnipersTableModel.textFor(SniperState.WON)); // test case
 	}
 
@@ -49,13 +47,13 @@ public class ApplicationRunner {
 		}
 	}
 
-	public void hasShownSniperIsBidding(int lastPrice, int lastBid) {
-		driver.showsSniperStatus(itemId, lastPrice, lastBid,
+	public void hasShownSniperIsBidding(FakeAuctionServer auction, int lastPrice, int lastBid) {
+		driver.showsSniperStatus(auction.getItemId(), lastPrice, lastBid,
 				SnipersTableModel.textFor(SniperState.BIDDING)); // test case
 	}
 
-	public void hasShownSniperIsWinning(int winningBid) {
-		driver.showsSniperStatus(itemId, winningBid, winningBid,
+	public void hasShownSniperIsWinning(FakeAuctionServer auction, int winningBid) {
+		driver.showsSniperStatus(auction.getItemId(), winningBid, winningBid,
 				SnipersTableModel.textFor(SniperState.WINNING)); // test case
 	}
 }
