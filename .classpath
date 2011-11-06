@@ -9,7 +9,7 @@
 	<classpathentry kind="lib" path="/home/tomita/programs/java/hamcrest-library-1.2.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/jMock2"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="/home/tomita/programs/java/windowlicker/build/jars/windowlicker-swing-a.jar"/>
 	<classpathentry kind="lib" path="/home/tomita/programs/java/windowlicker/build/jars/windowlicker-core-a.jar"/>
+	<classpathentry kind="lib" path="/home/tomita/programs/java/windowlicker/build/jars/windowlicker-swing-a.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
