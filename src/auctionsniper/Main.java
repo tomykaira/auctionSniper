@@ -13,6 +13,7 @@ import org.jivesoftware.smack.XMPPException;
 
 import auctionsniper.ui.MainWindow;
 import auctionsniper.ui.SnipersTableModel;
+import auctionsniper.util.Announcer;
 import auctionsniper.xmpp.AuctionMessageTranslator;
 
 public class Main {
@@ -63,13 +64,16 @@ public class Main {
 			public void joinAuction(String itemId) {
 				snipers.addSniper(SniperSnapshot.joining(itemId));
 				final Chat chat = connection.getChatManager().createChat(auctionId(itemId, connection), null);
-				notToBeGCd.add(chat);
 
-				Auction auction = new XMPPAuction(chat);
+				Announcer<AuctionEventListener> auctionEventListeners = Announcer.to(AuctionEventListener.class);
 				chat.addMessageListener(
 						new AuctionMessageTranslator(
 								connection.getUser(),
-								new AuctionSniper(itemId, auction, new SwingThreadSniperListener(snipers))));
+								auctionEventListeners.announce()));
+				notToBeGCd.add(chat);
+
+				Auction auction = new XMPPAuction(chat);
+				auctionEventListeners.addListener(new AuctionSniper(itemId, auction, new SwingThreadSniperListener(snipers)));
 				auction.join();
 			}
 		});
