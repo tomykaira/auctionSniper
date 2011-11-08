@@ -40,11 +40,6 @@ public class AuctionSniperDriver extends JFrameDriver {
 				withLabelText("Last Bid"), withLabelText("State")));
 	}
 
-	public void startBiddingFor(String itemId) {
-		itemIdField().replaceAllText(itemId);
-		bidButton().click();
-	}
-
 	public void startBiddingFor(String itemId, int stopPrice) {
 		itemIdField().replaceAllText(itemId);
 		stopPriceField().replaceAllText(String.valueOf(stopPrice));

@@ -19,6 +19,7 @@ import auctionsniper.AuctionSniper;
 import auctionsniper.SniperListener;
 import auctionsniper.SniperSnapshot;
 import auctionsniper.SniperState;
+import auctionsniper.UserRequestListener.Item;
 
 @RunWith(JMock.class)
 public class AuctionSniperTest {
@@ -26,7 +27,7 @@ public class AuctionSniperTest {
 	private final Mockery context = new Mockery();
 	private final Auction auction = context.mock(Auction.class);
 	private final SniperListener sniperListener = context.mock(SniperListener.class);
-	private final AuctionSniper sniper = new AuctionSniper(ITEM_ID, auction);
+	private final AuctionSniper sniper = new AuctionSniper(new Item(ITEM_ID, 1100), auction);
 	private final States sniperSnapshot = context.states("sniper");
 
 	@Before public void

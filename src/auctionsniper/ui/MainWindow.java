@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 
 import auctionsniper.SniperPortfolio;
 import auctionsniper.UserRequestListener;
+import auctionsniper.UserRequestListener.Item;
 import auctionsniper.util.Announcer;
 
 public class MainWindow extends JFrame {
@@ -53,7 +54,7 @@ public class MainWindow extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				userRequests.announce().joinAuction(itemIdField.getText());
+				userRequests.announce().joinAuction(new Item(itemIdField.getText(), Integer.parseInt(stopPriceField.getText())));
 			}
 
 		});

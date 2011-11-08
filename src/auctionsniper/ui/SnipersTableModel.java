@@ -19,7 +19,7 @@ public class SnipersTableModel extends AbstractTableModel implements SniperListe
 	private List<AuctionSniper>	notToBeGCd;
 
 	private static String[] STATUS_TEXT = {
-		"Joining", "Bidding", "Winning", "Lost", "Won"
+		"Joining", "Bidding", "Winning", "Losing", "Lost", "Won"
 	};
 
 	public SnipersTableModel() {

@@ -18,6 +18,7 @@ import auctionsniper.Auction;
 import auctionsniper.AuctionSniper;
 import auctionsniper.SniperSnapshot;
 import auctionsniper.SniperState;
+import auctionsniper.UserRequestListener.Item;
 import auctionsniper.ui.Column;
 import auctionsniper.ui.SnipersTableModel;
 
@@ -42,7 +43,7 @@ public class SnipersTableModelTest {
 
 	@Test public void
 	setsSniperValuesInColumns() {
-		AuctionSniper sniper = new AuctionSniper("item id", auction);
+		AuctionSniper sniper = new AuctionSniper(new Item("item id", 999), auction);
 		SniperSnapshot bidding = sniper.getSnapshot().bidding(555, 666);
 		context.checking(new Expectations() {{
 			allowing(listener).tableChanged(with(anyInsertionEvent()));
@@ -57,7 +58,7 @@ public class SnipersTableModelTest {
 
 	@Test public void
 	notifiesListenersWhenAddingASniper() {
-		AuctionSniper sniper = new AuctionSniper("item233", auction);
+		AuctionSniper sniper = new AuctionSniper(new Item("item233", 1000), auction);
 		context.checking(new Expectations() {{
 			one(listener).tableChanged(with(anInsertionAtRow(0)));
 		}});
@@ -74,8 +75,8 @@ public class SnipersTableModelTest {
 			ignoring(listener);
 		}});
 
-		model.sniperAdded(new AuctionSniper("item 0", auction));
-		model.sniperAdded(new AuctionSniper("item 1", auction));
+		model.sniperAdded(new AuctionSniper(new Item("item 0", 999), auction));
+		model.sniperAdded(new AuctionSniper(new Item("item 1", 999), auction));
 
 		assertEquals("item 0", cellValue(0, Column.ITEM_IDENTIFIER));
 		assertEquals("item 1", cellValue(1, Column.ITEM_IDENTIFIER));
@@ -83,14 +84,14 @@ public class SnipersTableModelTest {
 
 	@Test public void
 	updatesCorrectRowForSniper() {
-		AuctionSniper sniper = new AuctionSniper("item 0", auction);
+		AuctionSniper sniper = new AuctionSniper(new Item("item 0", 999), auction);
 		SniperSnapshot bidding = sniper.getSnapshot().bidding(200, 300);
 		context.checking(new Expectations(){{
 			ignoring(listener);
 		}});
 
 		model.sniperAdded(sniper);
-		model.sniperAdded(new AuctionSniper("item 1", auction));
+		model.sniperAdded(new AuctionSniper(new Item("item 1", 123), auction));
 
 		model.sniperStateChanged(bidding);
 
