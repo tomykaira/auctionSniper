@@ -1,21 +1,14 @@
 package auctionsniper;
 
-import java.util.ArrayList;
-
-import auctionsniper.ui.SnipersTableModel;
-import auctionsniper.xmpp.XMPPAuctionHouse;
 
 public class SniperLauncher implements UserRequestListener{
 
-	private final XMPPAuctionHouse	auctionHouse;
-	private final SnipersTableModel	snipers;
-	private final ArrayList<Auction>	notToBeGCd = new ArrayList<Auction>();
+	private final AuctionHouse	auctionHouse;
 	private final SniperCollector collector;
 
-	public SniperLauncher(XMPPAuctionHouse auctionHouse, SnipersTableModel snipers) {
+	public SniperLauncher(AuctionHouse auctionHouse, SniperCollector collector) {
 		this.auctionHouse = auctionHouse;
-		this.snipers = snipers;
-		this.collector = new SnipersTableModel();
+		this.collector = collector;
 	}
 
 	@Override
@@ -25,7 +18,6 @@ public class SniperLauncher implements UserRequestListener{
 		auction.addAuctionEventListener(sniper);
 		collector.addSniper(sniper);
 		auction.join();
-
 	}
 
 }

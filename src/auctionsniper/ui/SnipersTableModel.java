@@ -77,5 +77,5 @@ public class SnipersTableModel extends AbstractTableModel implements SniperListe
 		snapshots.add(snapshot);
 		int row = snapshots.size()-1;
 		fireTableRowsInserted(row, row);
-		}
+	}
 }
