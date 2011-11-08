@@ -52,4 +52,10 @@ public class AuctionSniper implements AuctionEventListener {
 	public SniperSnapshot getSnapshot() {
 		return snapshot;
 	}
+
+	@Override
+	public void auctionFailed() {
+		// TODO Auto-generated method stub
+
+	}
 }

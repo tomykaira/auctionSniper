@@ -69,6 +69,12 @@ public class XMPPAuctionTest {
 			public void auctionClosed() {
 				auctionWasClosed.countDown();
 			}
+
+			@Override
+			public void auctionFailed() {
+				// TODO Auto-generated method stub
+
+			}
 		};
 	}
 }
