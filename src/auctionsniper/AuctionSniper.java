@@ -6,10 +6,13 @@ public class AuctionSniper implements AuctionEventListener {
 	private Auction auction;
 	private SniperSnapshot snapshot;
 
-	public AuctionSniper(String itemId, Auction auction, SniperListener sniperListener) {
+	public AuctionSniper(String itemId, Auction auction) {
 		this.auction = auction;
-		this.sniperListener = sniperListener;
 		this.snapshot = SniperSnapshot.joining(itemId);
+	}
+
+	public void addSniperListener(SniperListener listener) {
+		this.sniperListener = listener;
 	}
 
 	@Override
@@ -35,5 +38,9 @@ public class AuctionSniper implements AuctionEventListener {
 
 	private void notifyChange() {
 		sniperListener.sniperStateChanged(snapshot);
+	}
+
+	public SniperSnapshot getSnapshot() {
+		return snapshot;
 	}
 }
