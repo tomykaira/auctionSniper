@@ -6,14 +6,14 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 import auctionsniper.AuctionSniper;
-import auctionsniper.SniperCollector;
 import auctionsniper.SniperListener;
+import auctionsniper.SniperPortfolio.PortfolioListener;
 import auctionsniper.SniperSnapshot;
 import auctionsniper.SniperState;
 
 import com.objogate.exception.Defect;
 
-public class SnipersTableModel extends AbstractTableModel implements SniperListener, SniperCollector {
+public class SnipersTableModel extends AbstractTableModel implements SniperListener, PortfolioListener {
 	private List<SniperSnapshot> snapshots;
 
 	private List<AuctionSniper>	notToBeGCd;
@@ -66,16 +66,17 @@ public class SnipersTableModel extends AbstractTableModel implements SniperListe
 	public String getColumnName(int column) {
 		return Column.at(column).name;
 	}
-	@Override
-	public void addSniper(AuctionSniper sniper) {
-		notToBeGCd.add(sniper);
-		addSniperSnapshot(sniper.getSnapshot());
-		sniper.addSniperListener(new SwingThreadSniperListener(this));
-	}
 
 	private void addSniperSnapshot(SniperSnapshot snapshot) {
 		snapshots.add(snapshot);
 		int row = snapshots.size()-1;
 		fireTableRowsInserted(row, row);
+	}
+
+	@Override
+	public void sniperAdded(AuctionSniper sniper) {
+		notToBeGCd.add(sniper);
+		addSniperSnapshot(sniper.getSnapshot());
+		sniper.addSniperListener(new SwingThreadSniperListener(this));
 	}
 }
