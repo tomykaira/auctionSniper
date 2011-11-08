@@ -28,7 +28,7 @@ public class AuctionMessageTranslator implements MessageListener {
 		}
 	}
 
-	private void translate(String body) {
+	private void translate(String body) throws Exception  {
 		AuctionEvent event = AuctionEvent.from(body);
 
 		String type = event.type();
@@ -41,16 +41,20 @@ public class AuctionMessageTranslator implements MessageListener {
 
 	private static class AuctionEvent {
 		private final Map<String, String> fields = new HashMap<String, String>();
-		public String type() { return get("Event"); }
-		public int currentPrice() { return getInt("CurrentPrice"); }
-		public int increment() { return getInt("Increment"); }
+		public String type() throws MissingValueException { return get("Event"); }
+		public int currentPrice() throws MissingValueException { return getInt("CurrentPrice"); }
+		public int increment() throws MissingValueException { return getInt("Increment"); }
 
-		private int getInt(String fieldName) {
+		private int getInt(String fieldName) throws MissingValueException {
 			return Integer.parseInt(get(fieldName));
 		}
 
-		private String get(String fieldName) {
-			return fields.get(fieldName);
+		private String get(String fieldName) throws MissingValueException {
+			String value = fields.get(fieldName);
+			if (value == null) {
+				throw new MissingValueException(fieldName);
+			}
+			return value;
 		}
 
 		private void addField(String field) {
@@ -70,10 +74,16 @@ public class AuctionMessageTranslator implements MessageListener {
 			return messageBody.split(";");
 		}
 
-		public PriceSource isFrom(String sniperId) {
+		public PriceSource isFrom(String sniperId) throws MissingValueException {
 			return sniperId.equals(bidder()) ? PriceSource.FromSniper : PriceSource.FromOtherBidder;
 		}
-		private String bidder () { return get("Bidder"); }
+		private String bidder () throws MissingValueException { return get("Bidder"); }
+
+		private static class MissingValueException extends Exception {
+			public MissingValueException(String fieldName) {
+				super("Missing value for " + fieldName);
+			}
+		}
 	}
 
 }
