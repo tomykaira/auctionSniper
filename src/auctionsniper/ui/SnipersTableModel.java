@@ -18,7 +18,7 @@ public class SnipersTableModel extends AbstractTableModel implements SniperListe
 	private List<SniperSnapshot> sniperSnapshots = new ArrayList<SniperSnapshot>();
 
 	private static String[] STATUS_TEXT = {
-		"Joining", "Bidding", "Winning", "Losing", "Lost", "Won"
+		"Joining", "Bidding", "Winning", "Losing", "Lost", "Won", "Failed"
 	};
 
 	@Override
