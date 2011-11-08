@@ -93,5 +93,9 @@ public class FakeAuctionServer {
 
 	}
 
+	public void sendInvalidMessageContaining(String brokenMessage) throws XMPPException {
+		currentChat.sendMessage(brokenMessage);
+	}
+
 }
 

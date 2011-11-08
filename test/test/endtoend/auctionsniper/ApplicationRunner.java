@@ -90,4 +90,15 @@ public class ApplicationRunner {
 				SnipersTableModel.textFor(SniperState.LOSING)); // test case
 	}
 
+	public void showsSniperHasFailed(FakeAuctionServer auction) {
+		driver.showsSniperStatus(auction.getItemId(), 0, 0,
+				SnipersTableModel.textFor(SniperState.FAILED)); // test case
+	}
+
+	public void reportsInvalidMessage(FakeAuctionServer auction,
+			String brokenMessage) {
+		// TODO Auto-generated method stub
+
+	}
+
 }
