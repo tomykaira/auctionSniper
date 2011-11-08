@@ -23,6 +23,10 @@ public interface UserRequestListener extends EventListener {
 	  public int hashCode() { return HashCodeBuilder.reflectionHashCode(this); }
 	  @Override
 	  public String toString() { return "Item: " + identifier + ", stop price: " + stopPrice; }
+
+		public boolean allowsBid(int bid) {
+			return bid <= stopPrice;
+		}
 	}
 
 }
