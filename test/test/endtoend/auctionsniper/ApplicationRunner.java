@@ -24,6 +24,9 @@ public class ApplicationRunner {
 
 	public void startBiddingWithStopPrice(FakeAuctionServer auction, int stopPrice) {
 		startSniper();
+		final String itemId = auction.getItemId();
+		driver.startBiddingFor(itemId, stopPrice);
+		driver.showsSniperStatus(auction.getItemId(), 0, 0, SnipersTableModel.textFor(SniperState.JOINING));
 	}
 
 	private void startSniper() {

@@ -23,6 +23,7 @@ public class MainWindow extends JFrame {
 	public static final String	APPLICATION_TITLE	= "Auction Sniper";
 	public static final String	NEW_ITEM_ID_NAME	= "item id";
 	public static final String	JOIN_BUTTON_NAME	= "Join Auction";
+	public static final String	NEW_ITEM_STOP_PRICE_NAME	= "stop price";
 
 	private final Announcer<UserRequestListener> userRequests = Announcer.to(UserRequestListener.class);
 
@@ -40,6 +41,11 @@ public class MainWindow extends JFrame {
 		itemIdField.setColumns(25);
 		itemIdField.setName(NEW_ITEM_ID_NAME);
 		controls.add(itemIdField);
+
+		final JTextField stopPriceField = new JTextField();
+		stopPriceField.setColumns(25);
+		stopPriceField.setName(NEW_ITEM_STOP_PRICE_NAME);
+		controls.add(stopPriceField);
 
 		JButton joinAuctionButton = new JButton("Join Auction");
 		joinAuctionButton.setName(JOIN_BUTTON_NAME);
