@@ -14,14 +14,14 @@ public class XMPPAuction implements Auction {
 	public static final String JOIN_COMMAND_FORMAT = "SOLVersion: 1.1; Command: JOIN;";
 	public static final String BID_COMMAND_FORMAT = "SOLVersion: 1.1; Command: Bid; Price: %d;";
 
-	public XMPPAuction(XMPPConnection connection, String auctionJID) {
-		AuctionMessageTranslator translator = translatorFor(connection);
+	public XMPPAuction(XMPPConnection connection, String auctionJID, XMPPFailureReporter failureReporter) {
+		AuctionMessageTranslator translator = translatorFor(connection, failureReporter);
 		this.chat = connection.getChatManager().createChat(auctionJID, translator);
 		addAuctionEventListener(chatDisconnectorFor(translator));
 	}
 
-	private AuctionMessageTranslator translatorFor(XMPPConnection connection) {
-		return new AuctionMessageTranslator(connection.getUser(), auctionEventListeners.announce());
+	private AuctionMessageTranslator translatorFor(XMPPConnection connection, XMPPFailureReporter failureReporter) {
+		return new AuctionMessageTranslator(connection.getUser(), auctionEventListeners.announce(), failureReporter);
 	}
 
 	@Override

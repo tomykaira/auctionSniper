@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
+import org.jmock.Mockery;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,11 +19,15 @@ import auctionsniper.Auction;
 import auctionsniper.AuctionEventListener;
 import auctionsniper.xmpp.XMPPAuction;
 import auctionsniper.xmpp.XMPPAuctionHouse;
+import auctionsniper.xmpp.XMPPFailureReporter;
 
 public class XMPPAuctionTest {
 
 	private XMPPConnection	connection;
 	private final FakeAuctionServer auctionServer = new FakeAuctionServer("item-54321");
+
+	private final Mockery context = new Mockery();
+	private final XMPPFailureReporter reporter = context.mock(XMPPFailureReporter.class);
 
 	@Before public void
 	openConnection() throws XMPPException {
@@ -48,7 +53,7 @@ public class XMPPAuctionTest {
 		CountDownLatch auctionWasClosed = new CountDownLatch(1);
 
 		String auctionJID = String.format(XMPPAuctionHouse.AUCTION_ID_FORMAT, auctionServer.getItemId(), connection.getServiceName());
-		Auction auction = new XMPPAuction(connection, auctionJID);
+		Auction auction = new XMPPAuction(connection, auctionJID, reporter);
 		auction.addAuctionEventListener(auctionClosedListener(auctionWasClosed));
 
 		auction.join();
@@ -61,21 +66,14 @@ public class XMPPAuctionTest {
 	private AuctionEventListener auctionClosedListener(final CountDownLatch auctionWasClosed) {
 		return new AuctionEventListener() {
 
-			@Override
-			public void currentPrice(int price, int increment, PriceSource source) {
-				// not implemented
-			}
+			@Override public void currentPrice(int price, int increment, PriceSource source) { }
 
 			@Override
 			public void auctionClosed() {
 				auctionWasClosed.countDown();
 			}
 
-			@Override
-			public void auctionFailed() {
-				// TODO Auto-generated method stub
-
-			}
+			@Override public void auctionFailed() { }
 		};
 	}
 }
