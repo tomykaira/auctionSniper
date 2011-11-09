@@ -107,13 +107,11 @@ public class AuctionSniperEndToEndTest {
 		auction.startSellingItem();
 		auction2.startSellingItem();
 
-
 		application.startBiddingIn(auction, auction2);
 		auction.hasReceivedJoinRequestFrom(ApplicationRunner.SNIPER_XMPP_ID);
-		auction2.hasReceivedJoinRequestFrom(ApplicationRunner.SNIPER_XMPP_ID);
 
 		auction.reportPrice(500, 20, "other bidder");
-		auction.hasReceivedBid(1098, ApplicationRunner.SNIPER_XMPP_ID);
+		auction.hasReceivedBid(520, ApplicationRunner.SNIPER_XMPP_ID);
 
 		auction.sendInvalidMessageContaining(brokenMessage);
 		application.showsSniperHasFailed(auction);
@@ -134,6 +132,7 @@ public class AuctionSniperEndToEndTest {
 	@After
 	public void stopAuction() {
 		auction.stop();
+		auction2.stop();
 	}
 
 	@After
