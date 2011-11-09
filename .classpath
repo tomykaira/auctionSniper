@@ -12,5 +12,8 @@
 	<classpathentry kind="lib" path="/home/tomita/programs/java/windowlicker/build/jars/windowlicker-core-a.jar"/>
 	<classpathentry kind="lib" path="/home/tomita/programs/java/windowlicker/build/jars/windowlicker-swing-a.jar"/>
 	<classpathentry kind="lib" path="/home/tomita/programs/java/commons-io-2.1/commons-io-2.1.jar"/>
+	<classpathentry kind="lib" path="/home/tomita/programs/java/jmock-2.5.1-jars/jmock-2.5.1/jmock-legacy-2.5.1.jar"/>
+	<classpathentry kind="lib" path="/home/tomita/programs/java/cglib-nodep-2.2.2.jar"/>
+	<classpathentry kind="lib" path="/home/tomita/programs/java/objenesis-1.2/objenesis-1.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
