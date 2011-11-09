@@ -1,6 +1,16 @@
 package test.endtoend.auctionsniper;
 
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.*;
 import static test.endtoend.auctionsniper.FakeAuctionServer.*;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.LogManager;
+
+import org.apache.commons.io.FileUtils;
+import org.hamcrest.Matcher;
+
 import auctionsniper.Main;
 import auctionsniper.SniperState;
 import auctionsniper.ui.MainWindow;
@@ -11,25 +21,29 @@ public class ApplicationRunner {
 	public static final String SNIPER_PASSWORD = "sniper";
 	public static final String SNIPER_XMPP_ID = SNIPER_ID + "@" + XMPP_HOSTNAME + "/Auction";
 	private AuctionSniperDriver driver;
+	private AuctionLogDriver logDriver = new AuctionLogDriver();
 
 	// trigger an event to drive the test
 	public void startBiddingIn(final FakeAuctionServer... auctions) {
 		startSniper();
 		for (FakeAuctionServer auction : auctions) {
-			final String itemId = auction.getItemId();
-			driver.startBiddingFor(itemId, Integer.MAX_VALUE);
-			driver.showsSniperStatus(auction.getItemId(), 0, 0, SnipersTableModel.textFor(SniperState.JOINING));
+			openBiddingFor(auction, Integer.MAX_VALUE);
 		}
 	}
 
 	public void startBiddingWithStopPrice(FakeAuctionServer auction, int stopPrice) {
 		startSniper();
+		openBiddingFor(auction, stopPrice);
+	}
+
+	private void openBiddingFor(FakeAuctionServer auction, int stopPrice) {
 		final String itemId = auction.getItemId();
 		driver.startBiddingFor(itemId, stopPrice);
 		driver.showsSniperStatus(auction.getItemId(), 0, 0, SnipersTableModel.textFor(SniperState.JOINING));
 	}
 
 	private void startSniper() {
+		logDriver.clearLog();
 		Thread thread = new Thread("Test Application") {
 			@Override public void run() {
 				try {
@@ -94,9 +108,21 @@ public class ApplicationRunner {
 	}
 
 	public void reportsInvalidMessage(FakeAuctionServer auction,
-			String brokenMessage) {
-		// TODO Auto-generated method stub
-
+			String message) throws IOException {
+		logDriver.hasEntry(containsString(message));
 	}
 
+	public class AuctionLogDriver {
+		public static final String LOG_FILE_NAME ="auction-sniper.log";
+		private final File logFile = new File(LOG_FILE_NAME);
+
+		public void hasEntry(Matcher<String> matcher) throws IOException {
+			assertThat(FileUtils.readFileToString(logFile), matcher);
+		}
+
+		public void clearLog() {
+			logFile.delete();
+			LogManager.getLogManager().reset();
+		}
+	}
 }
