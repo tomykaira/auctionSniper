@@ -62,6 +62,19 @@ public class SnipersTableModelTest {
 		assertRowMatchesSnapshot(0, joining);
 	}
 
+	@Test public void
+	holdsSnipersInAdditionOrder() {
+		context.checking(new Expectations() {{
+			ignoring(listener);
+		}});
+
+		model.addSniper(SniperSnapshot.joining("item 0"));
+		model.addSniper(SniperSnapshot.joining("item 1"));
+
+		assertEquals("item 0", cellValue(0, Column.ITEM_IDENTIFIER));
+		assertEquals("item 1", cellValue(1, Column.ITEM_IDENTIFIER));
+	}
+
 	private void assertColumnEquals(Column column, Object expected) {
 		final int rowIndex = 0;
 		final int columnIndex = column.ordinal();
