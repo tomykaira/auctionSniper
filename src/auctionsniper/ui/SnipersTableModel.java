@@ -9,6 +9,8 @@ import auctionsniper.SniperListener;
 import auctionsniper.SniperSnapshot;
 import auctionsniper.SniperState;
 
+import com.objogate.exception.Defect;
+
 public class SnipersTableModel extends AbstractTableModel implements SniperListener {
 	private List<SniperSnapshot> sniperSnapshots = new ArrayList<SniperSnapshot>();
 
@@ -36,8 +38,10 @@ public class SnipersTableModel extends AbstractTableModel implements SniperListe
 			if (sniperSnapshots.get(i).itemId.equals(newSnapshot.itemId)) {
 				sniperSnapshots.set(i, newSnapshot);
 				fireTableRowsUpdated(i, i);
+				return ;
 			}
 		}
+		throw new Defect("Cannot find match for " + newSnapshot);
 	}
 
 	public static String textFor(SniperState state) {
