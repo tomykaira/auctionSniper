@@ -75,6 +75,23 @@ public class SnipersTableModelTest {
 		assertEquals("item 1", cellValue(1, Column.ITEM_IDENTIFIER));
 	}
 
+	@Test public void
+	updatesCorrectRowForSniper() {
+		SniperSnapshot joining = SniperSnapshot.joining("item 0");
+		SniperSnapshot bidding = joining.bidding(100, 100);
+
+		context.checking(new Expectations() {{
+			allowing(listener).tableChanged(with(anyInsertionEvent()));
+			one(listener).tableChanged(with(aChangeInRow(0)));
+		}});
+
+		model.addSniper(joining);
+		model.addSniper(SniperSnapshot.joining("item 1"));
+
+		model.sniperStateChanged(bidding);
+		assertRowMatchesSnapshot(0, bidding);
+	}
+
 	private void assertColumnEquals(Column column, Object expected) {
 		final int rowIndex = 0;
 		final int columnIndex = column.ordinal();
