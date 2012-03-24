@@ -34,16 +34,19 @@ public class SnipersTableModel extends AbstractTableModel implements SniperListe
 
 	@Override
 	public void sniperStateChanged(SniperSnapshot newSnapshot) {
-		for (int i=0; i < sniperSnapshots.size(); i++) {
-			if (sniperSnapshots.get(i).itemId.equals(newSnapshot.itemId)) {
-				sniperSnapshots.set(i, newSnapshot);
-				fireTableRowsUpdated(i, i);
-				return ;
-			}
-		}
-		throw new Defect("Cannot find match for " + newSnapshot);
+		int row = rowMatching(newSnapshot);
+		sniperSnapshots.set(row, newSnapshot);
+		fireTableRowsUpdated(row, row);
 	}
 
+	private int rowMatching(SniperSnapshot snapshot) {
+		for (int i=0; i < sniperSnapshots.size(); i++) {
+			if (snapshot.isForSameItemAs(sniperSnapshots.get(i))) {
+				return i;
+			}
+		}
+		throw new Defect("Cannot find match for " + snapshot);
+	}
 	public static String textFor(SniperState state) {
 		return STATUS_TEXT[state.ordinal()];
 	}
