@@ -15,8 +15,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import auctionsniper.SniperSnapshot;
+import auctionsniper.SniperState;
 import auctionsniper.ui.Column;
 import auctionsniper.ui.SnipersTableModel;
+
+import com.objogate.exception.Defect;
 
 @RunWith(JMock.class)
 public class SnipersTableModelTest {
@@ -90,6 +93,11 @@ public class SnipersTableModelTest {
 
 		model.sniperStateChanged(bidding);
 		assertRowMatchesSnapshot(0, bidding);
+	}
+
+	@Test(expected=Defect.class) public void
+	throwsDefectIfNoExistingSniperForAnUpdate() {
+		model.sniperStateChanged(new SniperSnapshot("item 3", 123, 123, SniperState.WINNING));
 	}
 
 	private void assertColumnEquals(Column column, Object expected) {
