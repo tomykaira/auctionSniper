@@ -7,7 +7,7 @@ import auctionsniper.Auction;
 import auctionsniper.AuctionHouse;
 
 public class XMPPAuctionHouse implements AuctionHouse {
-	private static final String AUCTION_RESOURCE = "Auction";
+	static final String AUCTION_RESOURCE = "Auction";
 
 	private XMPPConnection	connection;
 
