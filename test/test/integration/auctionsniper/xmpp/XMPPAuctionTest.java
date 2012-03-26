@@ -34,12 +34,15 @@ public class XMPPAuctionTest {
 		connection.disconnect();
 	}
 
-  @Before public void startAuction() throws XMPPException {
-    auctionServer.startSellingItem();
-  }
-  @After public void stopAuction() {
-    auctionServer.stop();
-  }
+	@Before public void
+	startAuction() throws XMPPException {
+		auctionServer.startSellingItem();
+	}
+
+	@After public void
+	stopAuction() {
+		auctionServer.stop();
+	}
 
 
 	@Test public void
