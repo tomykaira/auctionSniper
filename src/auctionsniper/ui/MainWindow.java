@@ -16,6 +16,7 @@ import javax.swing.JTextField;
 import auctionsniper.UserRequestListener;
 import auctionsniper.util.Announcer;
 
+@SuppressWarnings("serial")
 public class MainWindow extends JFrame {
 	public static final String MAIN_WINDOW_NAME = "Auction Sniper Main";
 	public static final String SNIPERS_TABLE_NAME = "Snieper Table";

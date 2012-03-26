@@ -13,6 +13,7 @@ import auctionsniper.SniperState;
 
 import com.objogate.exception.Defect;
 
+@SuppressWarnings("serial")
 public class SnipersTableModel extends AbstractTableModel implements SniperListener, SniperCollector {
 	private List<SniperSnapshot> sniperSnapshots = new ArrayList<SniperSnapshot>();
 
