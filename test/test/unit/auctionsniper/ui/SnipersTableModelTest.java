@@ -102,12 +102,6 @@ public class SnipersTableModelTest {
 		model.sniperStateChanged(new SniperSnapshot("item 3", 123, 123, SniperState.WINNING));
 	}
 
-	private void assertColumnEquals(Column column, Object expected) {
-		final int rowIndex = 0;
-		final int columnIndex = column.ordinal();
-		assertEquals(expected, model.getValueAt(rowIndex, columnIndex));
-	}
-
 	private void assertRowMatchesSnapshot(int row, SniperSnapshot snapshot) {
 		assertEquals(snapshot.itemId, cellValue(row, Column.ITEM_IDENTIFIER));
 		assertEquals(snapshot.lastPrice, cellValue(row, Column.LAST_PRICE));
@@ -117,10 +111,6 @@ public class SnipersTableModelTest {
 
 	private Object cellValue(int rowIndex, Column column) {
 		return model.getValueAt(rowIndex, column.ordinal());
-	}
-
-	private Matcher<TableModelEvent> aRowChangedEvent() {
-		return samePropertyValuesAs(new TableModelEvent(model, 0));
 	}
 
 	Matcher<TableModelEvent> anyInsertionEvent() {
