@@ -5,13 +5,15 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
+import auctionsniper.AuctionSniper;
+import auctionsniper.SniperCollector;
 import auctionsniper.SniperListener;
 import auctionsniper.SniperSnapshot;
 import auctionsniper.SniperState;
 
 import com.objogate.exception.Defect;
 
-public class SnipersTableModel extends AbstractTableModel implements SniperListener {
+public class SnipersTableModel extends AbstractTableModel implements SniperListener, SniperCollector {
 	private List<SniperSnapshot> sniperSnapshots = new ArrayList<SniperSnapshot>();
 
 	private static String[] STATUS_TEXT = {
@@ -54,6 +56,12 @@ public class SnipersTableModel extends AbstractTableModel implements SniperListe
 	@Override
 	public String getColumnName(int column) {
 		return Column.at(column).name;
+	}
+
+	@Override
+	public void addSniper(AuctionSniper sniper) {
+		// TODO Auto-generated method stub
+
 	}
 
 	public void addSniper(SniperSnapshot snapshot) {
