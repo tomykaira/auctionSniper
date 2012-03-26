@@ -16,6 +16,8 @@ import com.objogate.exception.Defect;
 public class SnipersTableModel extends AbstractTableModel implements SniperListener, SniperCollector {
 	private List<SniperSnapshot> sniperSnapshots = new ArrayList<SniperSnapshot>();
 
+	private final List<AuctionSniper> notToBeGCd = new ArrayList<AuctionSniper>();
+
 	private static String[] STATUS_TEXT = {
 		"Joining", "Bidding", "Winning", "Lost", "Won"
 	};
@@ -60,12 +62,14 @@ public class SnipersTableModel extends AbstractTableModel implements SniperListe
 
 	@Override
 	public void addSniper(AuctionSniper sniper) {
-		// TODO Auto-generated method stub
-
+		notToBeGCd.add(sniper);
+		addSniperSnapshot(sniper.getSnapshot());
+		sniper.addSniperListener(new SwingThreadSniperListener(this));
 	}
 
-	public void addSniper(SniperSnapshot snapshot) {
+	private void addSniperSnapshot(SniperSnapshot snapshot) {
 		sniperSnapshots.add(snapshot);
-		fireTableRowsInserted(sniperSnapshots.size()-1, sniperSnapshots.size()-1);
+		int row = sniperSnapshots.size()-1;
+		fireTableRowsInserted(row, row);
 	}
 }
