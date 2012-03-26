@@ -8,13 +8,14 @@ import javax.swing.table.AbstractTableModel;
 import auctionsniper.AuctionSniper;
 import auctionsniper.SniperCollector;
 import auctionsniper.SniperListener;
+import auctionsniper.SniperPortfolio.PortfolioListener;
 import auctionsniper.SniperSnapshot;
 import auctionsniper.SniperState;
 
 import com.objogate.exception.Defect;
 
 @SuppressWarnings("serial")
-public class SnipersTableModel extends AbstractTableModel implements SniperListener, SniperCollector {
+public class SnipersTableModel extends AbstractTableModel implements SniperListener, SniperCollector, PortfolioListener {
 	private List<SniperSnapshot> sniperSnapshots = new ArrayList<SniperSnapshot>();
 
 	private final List<AuctionSniper> notToBeGCd = new ArrayList<AuctionSniper>();
@@ -72,5 +73,10 @@ public class SnipersTableModel extends AbstractTableModel implements SniperListe
 		sniperSnapshots.add(snapshot);
 		int row = sniperSnapshots.size()-1;
 		fireTableRowsInserted(row, row);
+	}
+
+	@Override
+	public void sniperAdded(AuctionSniper sniper) {
+		addSniper(sniper);
 	}
 }
