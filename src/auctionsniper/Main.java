@@ -19,7 +19,6 @@ public class Main {
 	private static final int ARG_HOSTNAME = 0;
 	private static final int ARG_USERNAME = 1;
 	private static final int ARG_PASSWORD = 2;
-	private static final int ARG_ITEM_ID  = 3;
 
 	private final SnipersTableModel snipers = new SnipersTableModel();
 
