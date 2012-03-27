@@ -47,7 +47,7 @@ public class AuctionSniperTest {
 	reportsLostWhenAuctionClosedWhenBidding() {
 		context.checking(new Expectations() {{
 			ignoring(auction);
-			allowing(sniperListener).sniperStateChanged(with(aSniperThatIs(SniperState.BIDDING)));
+			allowing(sniperListener).sniperStateChanged(with(aSniperThatIs(BIDDING)));
 				then(sniperState.is("bidding"));
 			atLeast(1).of(sniperListener).sniperStateChanged(with(aSniperThatIs(LOST)));
 				when(sniperState.is("bidding"));
