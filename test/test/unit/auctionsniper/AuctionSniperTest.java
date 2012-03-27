@@ -108,7 +108,7 @@ public class AuctionSniperTest {
 			allowing(auction).bid(bid);
 			atLeast(1).of(sniperListener).sniperStateChanged(
 					new SniperSnapshot(ITEM_ID, 2345, bid, LOSING));
-				when(sniperState.isNot("bidding"));
+				when(sniperState.is("bidding"));
 		}});
 
 		sniper.currentPrice(123, 45, PriceSource.FromOtherBidder);
