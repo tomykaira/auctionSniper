@@ -98,6 +98,28 @@ public class AuctionSniperTest {
 		sniper.currentPrice(135, 45, PriceSource.FromSniper);
 	}
 
+	@Test public void
+	doesNotBidAndReportsLosingIfSubsequentPriceIsAboveStopPrice() {
+		allowingSniperBidding();
+		context.checking(new Expectations() {{
+			int bid = 123 + 45;
+			allowing(auction).bid(bid);
+			atLeast(1).of(sniperListener).sniperStateChanged(
+					new SniperSnapshot(ITEM_ID, 2345, bid, LOSING));
+				when(sniperState.isNot("bidding"));
+		}});
+
+		sniper.currentPrice(123, 45, PriceSource.FromOtherBidder);
+		sniper.currentPrice(2345, 25, PriceSource.FromOtherBidder);
+	}
+
+	private void allowingSniperBidding() {
+		context.checking(new Expectations() {{
+			allowing(sniperListener).sniperStateChanged(with(aSniperThatIs(BIDDING)));
+				then(sniperState.is("bidding"));
+		}});
+	}
+
 	private Matcher<SniperSnapshot> aSniperThatIs(final SniperState state) {
 		return new FeatureMatcher<SniperSnapshot, SniperState>(equalTo(state), "sniper that is ", "was") {
 			@Override
