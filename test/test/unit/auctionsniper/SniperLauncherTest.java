@@ -12,6 +12,7 @@ import org.junit.Test;
 import auctionsniper.Auction;
 import auctionsniper.AuctionHouse;
 import auctionsniper.AuctionSniper;
+import auctionsniper.Item;
 import auctionsniper.SniperCollector;
 import auctionsniper.SniperLauncher;
 
@@ -39,7 +40,7 @@ public class SniperLauncherTest {
 				then(auctionState.is("joined"));
 		}});
 
-		launcher.joinAuction(itemId);
+		launcher.joinAuction(new Item(itemId, Integer.MAX_VALUE));
 	}
 
 	protected Matcher<AuctionSniper> sniperForItem(String itemId) {

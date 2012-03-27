@@ -16,6 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import auctionsniper.Item;
 import auctionsniper.SniperPortfolio;
 import auctionsniper.UserRequestListener;
 import auctionsniper.util.Announcer;
@@ -50,7 +51,7 @@ public class MainWindow extends JFrame {
 	private JPanel makeControls() {
 		JPanel controls = new JPanel(new FlowLayout());
 		final JTextField itemIdField = itemIdField();
-		JFormattedTextField stopPriceField = stopPriceField();
+		final JFormattedTextField stopPriceField = stopPriceField();
 
 		controls.add(new JLabel("Item:"));
 		controls.add(itemIdField);
@@ -63,7 +64,8 @@ public class MainWindow extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				userRequests.announce().joinAuction(itemIdField.getText());
+				Item item = new Item(itemIdField.getText(), 0);
+				userRequests.announce().joinAuction(item);
 			}
 
 		});
