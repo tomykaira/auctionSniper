@@ -49,17 +49,12 @@ public class MainWindow extends JFrame {
 
 	private JPanel makeControls() {
 		JPanel controls = new JPanel(new FlowLayout());
-		controls.add(new JLabel("Item:"));
-		final JTextField itemIdField = new JTextField();
-		itemIdField.setColumns(25);
-		itemIdField.setName(NEW_ITEM_ID_NAME);
-		controls.add(itemIdField);
+		final JTextField itemIdField = itemIdField();
+		JFormattedTextField stopPriceField = stopPriceField();
 
+		controls.add(new JLabel("Item:"));
+		controls.add(itemIdField);
 		controls.add(new JLabel("Stop price:"));
-		JFormattedTextField stopPriceField =
-				new JFormattedTextField(NumberFormat.getIntegerInstance());
-		stopPriceField.setColumns(7);
-		stopPriceField.setName(NEW_ITEM_STOP_PRICE_NAME);
 		controls.add(stopPriceField);
 
 		JButton joinAuctionButton = new JButton("Join Auction");
@@ -74,6 +69,21 @@ public class MainWindow extends JFrame {
 		});
 		controls.add(joinAuctionButton);
 		return controls;
+	}
+
+	private JTextField itemIdField() {
+		final JTextField itemIdField = new JTextField();
+		itemIdField.setColumns(25);
+		itemIdField.setName(NEW_ITEM_ID_NAME);
+		return itemIdField;
+	}
+
+	private JFormattedTextField stopPriceField() {
+		JFormattedTextField stopPriceField =
+				new JFormattedTextField(NumberFormat.getIntegerInstance());
+		stopPriceField.setColumns(7);
+		stopPriceField.setName(NEW_ITEM_STOP_PRICE_NAME);
+		return stopPriceField;
 	}
 
 	private void fillContentPane(JTable snipersTable, JPanel controls) {
