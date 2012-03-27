@@ -7,6 +7,7 @@ import org.hamcrest.FeatureMatcher;
 import org.hamcrest.Matcher;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
+import org.jmock.Sequence;
 import org.jmock.States;
 import org.jmock.integration.junit4.JMock;
 import org.junit.Before;
@@ -115,10 +116,51 @@ public class AuctionSniperTest {
 		sniper.currentPrice(2345, 25, PriceSource.FromOtherBidder);
 	}
 
+	@Test public void
+	doesNotBidAndReportsLosingIfPriceAfterWinningIsAboveStopPrice() {
+		final int price = 1233;
+		final int increment = 25;
+
+		allowingSniperBidding();
+		allowingSniperWinning();
+		context.checking(new Expectations() {{
+			int bid = 123 + 45;
+			allowing(auction).bid(bid);
+
+			atLeast(1).of(sniperListener).sniperStateChanged(new SniperSnapshot(ITEM_ID, price, bid, LOSING)); when(sniperState.is("winning"));
+		}});
+
+		sniper.currentPrice(123, 45, PriceSource.FromOtherBidder);
+		sniper.currentPrice(168, 45, PriceSource.FromSniper);
+		sniper.currentPrice(price, increment, PriceSource.FromOtherBidder);
+	}
+
+	@Test public void
+	continuesToBeLosingOnceStopPriceHasBeenReached() {
+		final Sequence states = context.sequence("sniper states");
+		final int price1 = 1233;
+		final int price2 = 1258;
+
+		context.checking(new Expectations() {{
+			atLeast(1).of(sniperListener).sniperStateChanged(new SniperSnapshot(ITEM_ID, price1, 0, LOSING)); inSequence(states);
+			atLeast(1).of(sniperListener).sniperStateChanged(new SniperSnapshot(ITEM_ID, price2, 0, LOSING)); inSequence(states);
+		}});
+
+		sniper.currentPrice(price1, 25, PriceSource.FromOtherBidder);
+		sniper.currentPrice(price2, 25, PriceSource.FromOtherBidder);
+	}
+
 	private void allowingSniperBidding() {
 		context.checking(new Expectations() {{
 			allowing(sniperListener).sniperStateChanged(with(aSniperThatIs(BIDDING)));
 				then(sniperState.is("bidding"));
+		}});
+	}
+
+	private void allowingSniperWinning() {
+		context.checking(new Expectations() {{
+			allowing(sniperListener).sniperStateChanged(with(aSniperThatIs(WINNING)));
+				then(sniperState.is("winning"));
 		}});
 	}
 
