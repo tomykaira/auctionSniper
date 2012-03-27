@@ -64,8 +64,16 @@ public class MainWindow extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Item item = new Item(itemIdField.getText(), 0);
+				Item item = new Item(itemId(), stopPrice());
 				userRequests.announce().joinAuction(item);
+			}
+
+			private String itemId() {
+				return itemIdField.getText();
+			}
+
+			private int stopPrice() {
+				return ((Number)stopPriceField.getValue()).intValue();
 			}
 
 		});
