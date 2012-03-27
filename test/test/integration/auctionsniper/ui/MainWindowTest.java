@@ -26,7 +26,7 @@ public class MainWindowTest {
 				buttonProbe.setReceivedValue(itemId);
 			}
 		});
-		driver.startBiddingFor("an item-id");
+		driver.startBiddingFor("an item-id", Integer.MAX_VALUE);
 		driver.check(buttonProbe);
 	}
 }
