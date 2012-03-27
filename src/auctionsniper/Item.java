@@ -25,4 +25,8 @@ public class Item {
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
 	}
+
+	public boolean allowsBid(int bid) {
+		return bid <= stopPrice;
+	}
 }
