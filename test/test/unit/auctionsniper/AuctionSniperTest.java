@@ -15,6 +15,7 @@ import org.junit.runner.RunWith;
 
 import auctionsniper.Auction;
 import auctionsniper.AuctionSniper;
+import auctionsniper.Item;
 import auctionsniper.SniperListener;
 import auctionsniper.AuctionEventListener.PriceSource;
 import auctionsniper.SniperSnapshot;
@@ -26,7 +27,8 @@ public class AuctionSniperTest {
 	private final Mockery context = new Mockery();
 	private final Auction auction = context.mock(Auction.class);
 	private final SniperListener sniperListener = context.mock(SniperListener.class);
-	private final AuctionSniper sniper = new AuctionSniper(ITEM_ID, auction);
+	private final Item item = new Item(ITEM_ID, 1234);
+	private final AuctionSniper sniper = new AuctionSniper(item, auction);
 	private final States sniperState = context.states("sniper");
 
 	@Before public void
