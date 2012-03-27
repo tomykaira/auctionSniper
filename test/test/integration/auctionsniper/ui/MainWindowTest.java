@@ -5,6 +5,7 @@ import static org.hamcrest.CoreMatchers.*;
 import org.junit.Test;
 
 import test.endtoend.auctionsniper.AuctionSniperDriver;
+import auctionsniper.Item;
 import auctionsniper.SniperPortfolio;
 import auctionsniper.UserRequestListener;
 import auctionsniper.ui.MainWindow;
@@ -22,8 +23,8 @@ public class MainWindowTest {
 		mainWindow.addUserRequestListener(new UserRequestListener() {
 
 			@Override
-			public void joinAuction(String itemId) {
-				buttonProbe.setReceivedValue(itemId);
+			public void joinAuction(Item item) {
+				buttonProbe.setReceivedValue(item.identifier);
 			}
 		});
 		driver.startBiddingFor("an item-id", Integer.MAX_VALUE);
