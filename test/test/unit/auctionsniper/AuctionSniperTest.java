@@ -27,7 +27,7 @@ public class AuctionSniperTest {
 	private final Auction auction = context.mock(Auction.class);
 	private final SniperListener sniperListener = context.mock(SniperListener.class);
 	private final AuctionSniper sniper = new AuctionSniper(ITEM_ID, auction);
-	private final States sniperSnapshot = context.states("sniper");
+	private final States sniperState = context.states("sniper");
 
 	@Before public void
 	attachSniperListenerToSniper() {
@@ -48,9 +48,9 @@ public class AuctionSniperTest {
 		context.checking(new Expectations() {{
 			ignoring(auction);
 			allowing(sniperListener).sniperStateChanged(with(aSniperThatIs(BIDDING)));
-				then(sniperSnapshot.is("bidding"));
+				then(sniperState.is("bidding"));
 			atLeast(1).of(sniperListener).sniperStateChanged(with(aSniperThatIs(LOST)));
-				when(sniperSnapshot.is("bidding"));
+				when(sniperState.is("bidding"));
 		}});
 
 		sniper.currentPrice(123, 45, PriceSource.FromOtherBidder);
@@ -62,9 +62,9 @@ public class AuctionSniperTest {
 		context.checking(new Expectations() {{
 			ignoring(auction);
 			allowing(sniperListener).sniperStateChanged(with(aSniperThatIs(WINNING)));
-				then(sniperSnapshot.is("winning"));
+				then(sniperState.is("winning"));
 			atLeast(1).of(sniperListener).sniperStateChanged(with(aSniperThatIs(WON)));
-				when(sniperSnapshot.is("winning"));
+				when(sniperState.is("winning"));
 		}});
 
 		sniper.currentPrice(123, 45, PriceSource.FromSniper);
@@ -89,9 +89,9 @@ public class AuctionSniperTest {
 		context.checking(new Expectations() {{
 			ignoring(auction);
 			allowing(sniperListener).sniperStateChanged(with(aSniperThatIs(BIDDING)));
-				then(sniperSnapshot.is("bidding"));
+				then(sniperState.is("bidding"));
 			atLeast(1).of(sniperListener).sniperStateChanged(new SniperSnapshot(ITEM_ID, 135, 135, WINNING));
-				when(sniperSnapshot.is("bidding"));
+				when(sniperState.is("bidding"));
 		}});
 
 		sniper.currentPrice(123, 12, PriceSource.FromOtherBidder);
