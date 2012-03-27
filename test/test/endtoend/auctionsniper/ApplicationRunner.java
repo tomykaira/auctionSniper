@@ -16,14 +16,19 @@ public class ApplicationRunner {
 	public void startBiddingIn(final FakeAuctionServer... auctions) {
 		startSniper();
 		for (FakeAuctionServer auction : auctions) {
-			final String itemId = auction.getItemId();
-			driver.startBiddingFor(itemId);
-			driver.showsSniperStatus(auction.getItemId(), 0, 0, SnipersTableModel.textFor(SniperState.JOINING));
+			openBiddingFor(auction, Integer.MAX_VALUE);
 		}
 	}
 
 	public void startBiddingWithStopPrice(FakeAuctionServer auction, int stopPrice) {
 		startSniper();
+		openBiddingFor(auction, stopPrice);
+	}
+
+	private void openBiddingFor(FakeAuctionServer auction, int stopPrice) {
+		final String itemId = auction.getItemId();
+		driver.startBiddingFor(itemId, stopPrice);
+		driver.showsSniperStatus(itemId, 0, 0, SnipersTableModel.textFor(SniperState.JOINING));
 	}
 
 	private void startSniper() {
