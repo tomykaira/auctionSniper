@@ -11,4 +11,6 @@ public interface AuctionEventListener extends EventListener {
 
 	void currentPrice(int price, int increment, PriceSource source);
 
+	void auctionFailed();
+
 }
