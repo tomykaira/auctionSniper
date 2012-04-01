@@ -52,4 +52,16 @@ public class AuctionMessageTranslatorTest {
 		translator.processMessage(UNUSED_CHAT, message);
 	}
 
+	@Test public void
+	notifiesAuctionFailedWhenBadMessageReceived() {
+		context.checking(new Expectations() {{
+			exactly(1).of(listener).auctionFailed();
+		}});
+
+		Message message = new Message();
+		message.setBody("a bad message");
+
+		translator.processMessage(UNUSED_CHAT, message);
+	}
+
 }
