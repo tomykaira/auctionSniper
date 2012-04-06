@@ -12,12 +12,14 @@ import test.endtoend.auctionsniper.ApplicationRunner;
 import auctionsniper.AuctionEventListener;
 import auctionsniper.AuctionEventListener.PriceSource;
 import auctionsniper.xmpp.AuctionMessageTranslator;
+import auctionsniper.xmpp.XMPPFailureReporter;
 
 @RunWith(JMock.class)
 public class AuctionMessageTranslatorTest {
 	public static final Chat UNUSED_CHAT = null;
 	private final Mockery context = new Mockery();
 	private final AuctionEventListener listener = context.mock(AuctionEventListener.class);
+	private final XMPPFailureReporter failureReporter = context.mock(XMPPFailureReporter.class);
 	private final AuctionMessageTranslator translator = new AuctionMessageTranslator(ApplicationRunner.SNIPER_ID, listener);
 
 	@Test public void
@@ -54,25 +56,31 @@ public class AuctionMessageTranslatorTest {
 
 	@Test public void
 	notifiesAuctionFailedWhenBadMessageReceived() {
-		context.checking(new Expectations() {{
-			exactly(1).of(listener).auctionFailed();
-		}});
-
-		Message message = new Message();
-		message.setBody("a bad message");
-
-		translator.processMessage(UNUSED_CHAT, message);
+		String badMessage = "a bad message";
+		expectFailureWIthMessage(badMessage);
+		translator.processMessage(UNUSED_CHAT, message(badMessage));
 	}
 
 	@Test public void
 	notifiesAuctionFailedWhenEventTypeMissing() {
+		String badMessage = "SOL Version: 1.1; CurrentPrice: 234; Increment: 5; Bidder: " + ApplicationRunner.SNIPER_ID + ";";
+		expectFailureWIthMessage(badMessage);
+		translator.processMessage(UNUSED_CHAT, message(badMessage));
+	}
+
+	private void expectFailureWIthMessage(final String badMessage) {
 		context.checking(new Expectations() {{
 			exactly(1).of(listener).auctionFailed();
+			oneOf(failureReporter).cannotTranslateMessage(
+					with(ApplicationRunner.SNIPER_ID), with(badMessage),
+					with(any(Exception.class)));
 		}});
+	}
 
+	private Message message(String messageBody) {
 		Message message = new Message();
-		message.setBody("SOL Version: 1.1; CurrentPrice: 234; Increment: 5; Bidder: " + ApplicationRunner.SNIPER_ID + ";");
-		translator.processMessage(UNUSED_CHAT, message);
+		message.setBody(messageBody);
+		return message;
 	}
 
 }
