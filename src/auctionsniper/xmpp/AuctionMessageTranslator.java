@@ -13,18 +13,23 @@ import auctionsniper.AuctionEventListener.PriceSource;
 public class AuctionMessageTranslator implements MessageListener {
 
 	private AuctionEventListener listener;
+	private XMPPFailureReporter failureReporter;
 	private final String sniperId;
 
-	public AuctionMessageTranslator(String sniperId, AuctionEventListener listener) {
-		this.listener = listener;
+	public AuctionMessageTranslator(String sniperId, AuctionEventListener listener,
+			XMPPFailureReporter failureReporter) {
 		this.sniperId = sniperId;
+		this.listener = listener;
+		this.failureReporter = failureReporter;
 	}
 
 	@Override
 	public void processMessage(Chat chat, Message message) {
+		String body = message.getBody();
 		try {
-			translate(message.getBody());
+			translate(body);
 		} catch (Exception parseError) {
+			failureReporter.cannotTranslateMessage(sniperId, body, parseError);
 			listener.auctionFailed();
 		}
 	}
