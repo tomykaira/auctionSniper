@@ -12,12 +12,15 @@ public final class XMPPAuction implements Auction {
 	private final Announcer<AuctionEventListener> auctionEventListeners =
 			Announcer.to(AuctionEventListener.class);
 	private final Chat chat;
+	private final XMPPFailureReporter failureReporter;
 	private static final String ITEM_ID_AS_LOGIN = "auction-%s";
 	private static final String AUCTION_ID_FORMAT = ITEM_ID_AS_LOGIN + "@%s/" + XMPPAuctionHouse.AUCTION_RESOURCE;
 	public static final String JOIN_COMMAND_FORMAT = "SOLVersion: 1.1; Command: JOIN;";
 	public static final String BID_COMMAND_FORMAT = "SOLVersion: 1.1; Command: Bid; Price: %d;";
 
-	public XMPPAuction(XMPPConnection connection, String itemId) {
+	public XMPPAuction(XMPPConnection connection, String itemId,
+			XMPPFailureReporter failureReporter) {
+		this.failureReporter = failureReporter;
 		AuctionMessageTranslator translator = translatorFor(connection);
 		chat = connection.getChatManager().
 				createChat(auctionId(itemId, connection),translator);
@@ -46,10 +49,7 @@ public final class XMPPAuction implements Auction {
 		return new AuctionMessageTranslator(
 				connection.getUser(),
 				auctionEventListeners.announce(),
-				new XMPPFailureReporter() {
-					@Override
-					public void cannotTranslateMessage(String auctionId,
-							String failedMessage, Exception exception) {}});
+				failureReporter);
 	}
 
 	@Override
