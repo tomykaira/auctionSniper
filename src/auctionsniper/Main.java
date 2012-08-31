@@ -15,8 +15,6 @@ import auctionsniper.ui.MainWindow;
 
 public class Main {
 
-	public static final String STATUS_JOINING = "Joining";
-	public static final String STATUS_LOST = "Lost";
 	private static final int ARG_HOSTNAME = 0;
 	private static final int ARG_USERNAME = 1;
 	private static final int ARG_PASSWORD = 2;
@@ -37,6 +35,7 @@ public class Main {
 
 	private void startUserInterface() throws Exception {
 		SwingUtilities.invokeAndWait(new Runnable() {
+			@Override
 			public void run() {
 				ui = new MainWindow();
 			}
@@ -62,7 +61,7 @@ public class Main {
 						SwingUtilities.invokeLater(new Runnable() {
 							@Override
 							public void run() {
-								ui.showStatus(STATUS_LOST);
+								ui.showStatus(MainWindow.STATUS_LOST);
 							}
 						});
 
