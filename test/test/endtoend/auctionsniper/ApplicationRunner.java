@@ -3,6 +3,7 @@ package test.endtoend.auctionsniper;
 import static test.endtoend.auctionsniper.FakeAuctionServer.*;
 import auctionsniper.Main;
 import auctionsniper.SniperState;
+import auctionsniper.ui.MainWindow;
 import auctionsniper.ui.SnipersTableModel;
 
 public class ApplicationRunner {
@@ -26,16 +27,20 @@ public class ApplicationRunner {
 		};
 		thread.setDaemon(true);
 		thread.start();
+
 		driver = new AuctionSniperDriver(1000);
+		driver.hasTitle(MainWindow.APPLICATION_TITLE);
+		driver.hasColumnTitles();
 		driver.showsSniperStatus(SnipersTableModel.textFor(SniperState.JOINING)); //test case
 	}
 
-	public void showsSniperHasLostAcution() {
+	public void showsSniperHasLostAcution(int lastPrice, int lastBid) {
 		driver.showsSniperStatus(SnipersTableModel.textFor(SniperState.LOST)); // test case
 	}
 
-	public void showsSniperHasWonAcution() {
-		driver.showsSniperStatus(SnipersTableModel.textFor(SniperState.WON)); // test case
+	public void showsSniperHasWonAcution(int lastPrice) {
+		driver.showsSniperStatus(itemId, lastPrice, lastPrice,
+				SnipersTableModel.textFor(SniperState.WON)); // test case
 	}
 
 	public void stop() {
@@ -44,23 +49,13 @@ public class ApplicationRunner {
 		}
 	}
 
-	public void hasShownSniperIsBidding() {
-		driver.showsSniperStatus(SnipersTableModel.textFor(SniperState.BIDDING)); // test case
-	}
-
-	public void hasShownSniperIsWinning() {
-		driver.showsSniperStatus(SnipersTableModel.textFor(SniperState.WINNING)); // test case
-	}
-
 	public void hasShownSniperIsBidding(int lastPrice, int lastBid) {
-		driver.showsSniperStatus(itemId, lastPrice, lastBid, SnipersTableModel.textFor(SniperState.BIDDING));
+		driver.showsSniperStatus(itemId, lastPrice, lastBid,
+				SnipersTableModel.textFor(SniperState.BIDDING)); // test case
 	}
 
-	public void hasShownSniperIsWinning(int lastPrice) {
-		driver.showsSniperStatus(itemId, lastPrice, lastPrice, SnipersTableModel.textFor(SniperState.WINNING));
-	}
-
-	public void showsSniperHasWonAcution(int lastPrice) {
-		driver.showsSniperStatus(itemId, lastPrice, lastPrice, SnipersTableModel.textFor(SniperState.WON));
+	public void hasShownSniperIsWinning(int winningBid) {
+		driver.showsSniperStatus(itemId, winningBid, winningBid,
+				SnipersTableModel.textFor(SniperState.WINNING)); // test case
 	}
 }
