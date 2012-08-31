@@ -9,7 +9,7 @@ import auctionsniper.SniperState;
 public class SnipersTableModel extends AbstractTableModel implements SniperListener {
 	private static final SniperSnapshot STARTING_UP = new SniperSnapshot("", 0, 0, SniperState.JOINING);
 	private SniperSnapshot sniperSnapshot = STARTING_UP;
-	
+
 	private static String[] STATUS_TEXT = {
 		"Joining", "Bidding", "Winning", "Lost", "Won"
 	};
@@ -26,6 +26,7 @@ public class SnipersTableModel extends AbstractTableModel implements SniperListe
 		return Column.at(columnIndex).valueIn(sniperSnapshot);
 	}
 
+	@Override
 	public void sniperStateChanged(SniperSnapshot newSnapshot) {
 		sniperSnapshot = newSnapshot;
 		fireTableRowsUpdated(0, 0);
@@ -33,5 +34,10 @@ public class SnipersTableModel extends AbstractTableModel implements SniperListe
 
 	public static String textFor(SniperState state) {
 		return STATUS_TEXT[state.ordinal()];
+	}
+
+	@Override
+	public String getColumnName(int column) {
+		return Column.at(column).name;
 	}
 }
