@@ -8,14 +8,15 @@ import auctionsniper.AuctionEventListener;
 
 public class AuctionMessageTranslator implements MessageListener {
 
+	private AuctionEventListener listener;
+
 	public AuctionMessageTranslator(AuctionEventListener listener) {
-		// TODO Auto-generated constructor stub
+		this.listener = listener;
 	}
 
 	@Override
-	public void processMessage(Chat arg0, Message arg1) {
-		// TODO Auto-generated method stub
-		
+	public void processMessage(Chat chat, Message message) {
+		listener.auctionClosed();
 	}
 
 }
