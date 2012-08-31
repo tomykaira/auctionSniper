@@ -27,7 +27,7 @@ public class ApplicationRunner {
 		driver.showsSniperStatus(MainWindow.STATUS_JOINING); //test case
 	}
 
-	public void showsSniperHasLotAcution() {
+	public void showsSniperHasLostAcution() {
 		driver.showsSniperStatus(MainWindow.STATUS_LOST); // test case
 	}
 
