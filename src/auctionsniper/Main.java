@@ -103,6 +103,12 @@ public class Main {
 			showStatus(MainWindow.STATUS_WINNING);
 		}
 
+		@Override
+		public void sniperWon() {
+			// TODO Auto-generated method stub
+			
+		}
+
 		private void showStatus(final String status) {
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
