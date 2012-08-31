@@ -105,8 +105,7 @@ public class Main {
 
 		@Override
 		public void sniperWon() {
-			// TODO Auto-generated method stub
-			
+			showStatus(MainWindow.STATUS_WON);
 		}
 
 		private void showStatus(final String status) {
