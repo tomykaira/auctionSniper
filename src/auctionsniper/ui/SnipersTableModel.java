@@ -2,6 +2,8 @@ package auctionsniper.ui;
 
 import javax.swing.table.AbstractTableModel;
 
+import auctionsniper.SniperState;
+
 public class SnipersTableModel extends AbstractTableModel {
 	private String statusText = MainWindow.STATUS_JOINING;
 
@@ -15,5 +17,10 @@ public class SnipersTableModel extends AbstractTableModel {
 	public void setStatusText(String newStatusText) {
 		statusText = newStatusText;
 		fireTableRowsUpdated(0, 0);
+	}
+	public void sniperStatusChanged(SniperState sniperState,
+			String statusBidding) {
+		// TODO Auto-generated method stub
+		
 	}
 }
