@@ -9,9 +9,11 @@ public class ApplicationRunner {
 	public static final String SNIPER_PASSWORD = "sniper";
 	public static final String SNIPER_XMPP_ID = SNIPER_ID + "@" + XMPP_HOSTNAME + "/Auction";
 	private AuctionSniperDriver driver;
+	private String itemId;
 
 	// trigger an event to drive the test
 	public void startBiddingIn(final FakeAuctionServer auction) {
+		itemId = auction.getItemId();
 		Thread thread = new Thread("Test Application") {
 			@Override public void run() {
 				try {
@@ -47,5 +49,17 @@ public class ApplicationRunner {
 
 	public void hasShownSniperIsWinning() {
 		driver.showsSniperStatus(MainWindow.STATUS_WINNING); // test case
+	}
+
+	public void hasShownSniperIsBidding(int lastPrice, int lastBid) {
+		driver.showsSniperStatus(itemId, lastPrice, lastBid, MainWindow.STATUS_BIDDING);
+	}
+
+	public void hasShownSniperIsWinning(int lastPrice) {
+		driver.showsSniperStatus(itemId, lastPrice, lastPrice, MainWindow.STATUS_WINNING);
+	}
+
+	public void showsSniperHasWonAcution(int lastPrice) {
+		driver.showsSniperStatus(itemId, lastPrice, lastPrice, MainWindow.STATUS_WON);
 	}
 }
