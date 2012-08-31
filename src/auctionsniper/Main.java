@@ -52,13 +52,12 @@ public class Main {
 
 	private void joinAuction(XMPPConnection connection, String itemId) throws XMPPException {
 		disconnectWhenuICloses(connection);
-		final Chat chat =
-				connection.getChatManager().createChat(auctionId(itemId, connection), null);
+		final Chat chat = connection.getChatManager().createChat(auctionId(itemId, connection), null);
 		this.notToBeGCd = chat;
 
 		Auction auction = new XMPPAuction(chat);
-		chat.addMessageListener(new AuctionMessageTranslator(connection.getUser(),
-				new AuctionSniper(itemId, auction, new SniperStateDisplayer())));
+		SniperListener listener = new SniperStateDisplayer(ui);
+		chat.addMessageListener(new AuctionMessageTranslator(connection.getUser(), new AuctionSniper(itemId, auction, listener)));
 		auction.join();
 	}
 
@@ -86,37 +85,6 @@ public class Main {
 		return connection;
 	}
 
-	public class SniperStateDisplayer implements SniperListener {
-
-		@Override
-		public void sniperLost() {
-			showStatus(MainWindow.STATUS_LOST);
-		}
-
-		@Override
-		public void sniperBidding(SniperState state) {
-			showStatus(MainWindow.STATUS_BIDDING);
-		}
-
-		@Override
-		public void sniperWinning() {
-			showStatus(MainWindow.STATUS_WINNING);
-		}
-
-		@Override
-		public void sniperWon() {
-			showStatus(MainWindow.STATUS_WON);
-		}
-
-		private void showStatus(final String status) {
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					ui.showStatus(status);
-				}
-			});
-		}
-	}
 
 	public static class XMPPAuction implements Auction {
 		private final Chat chat;
@@ -139,9 +107,58 @@ public class Main {
 			try {
 				chat.sendMessage(message);
 			} catch (XMPPException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
+	};
+
+
+	public class SniperStateDisplayer implements SniperListener {
+		private MainWindow ui;
+
+		public SniperStateDisplayer(MainWindow ui) {
+			this.ui = ui;
+		}
+
+		@Override
+		public void sniperLost() {
+			showStatus(MainWindow.STATUS_LOST);
+		}
+
+		@Override
+		public void sniperWinning() {
+			showStatus(MainWindow.STATUS_WINNING);
+		}
+
+		@Override
+		public void sniperBidding(SniperState state) {
+			sniperStatusChanged(state, MainWindow.STATUS_BIDDING);
+		}
+
+		private void showStatus(final String statusText) {
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					ui.showStatus(statusText);
+				}
+			});
+		}
+
+		private void sniperStatusChanged(final SniperState sniperState, final String statusText) {
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					ui.sniperStatusChanged(sniperState, statusText);
+				}
+			});
+		}
+
+		@Override
+		public void sniperWon() {
+			showStatus(MainWindow.STATUS_WON);
+		}
+
 	}
 
 }
