@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import auctionsniper.Auction;
 import auctionsniper.AuctionSniper;
 import auctionsniper.SniperListener;
+import auctionsniper.AuctionEventListener.PriceSource;
 
 @RunWith(JMock.class)
 public class AuctionSniperTest {
@@ -30,11 +31,12 @@ public class AuctionSniperTest {
 	bidsHigherAndReportsBiddingWhenNewPriceArrives() {
 		final int price = 1001;
 		final int increment = 25;
+		final PriceSource UNUSED_SOURCE = null;
 		context.checking(new Expectations() {{
 			one(auction).bid(price+increment);
 			atLeast(1).of(sniperListener).sniperBidding();
 		}});
 
-		sniper.currentPrice(price, increment);
+		sniper.currentPrice(price, increment, UNUSED_SOURCE);
 	}
 }
