@@ -3,14 +3,15 @@ package auctionsniper;
 
 public class AuctionSniper implements AuctionEventListener {
 
+	private SniperListener sniperListener;
+
 	public AuctionSniper(SniperListener sniperListener) {
-		// TODO Auto-generated constructor stub
+		this.sniperListener = sniperListener;
 	}
 
 	@Override
 	public void auctionClosed() {
-		// TODO Auto-generated method stub
-		
+		sniperListener.sniperLost();
 	}
 
 	@Override
