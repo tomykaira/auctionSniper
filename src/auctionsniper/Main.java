@@ -93,4 +93,11 @@ public class Main implements AuctionEventListener {
 		});
 	}
 
+
+	@Override
+	public void currentPrice(int price, int increment) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
