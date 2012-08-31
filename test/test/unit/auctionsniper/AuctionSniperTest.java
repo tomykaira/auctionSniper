@@ -11,7 +11,7 @@ import auctionsniper.Auction;
 import auctionsniper.AuctionSniper;
 import auctionsniper.SniperListener;
 import auctionsniper.AuctionEventListener.PriceSource;
-import auctionsniper.SniperState;
+import auctionsniper.SniperSnapshot;
 
 @RunWith(JMock.class)
 public class AuctionSniperTest {
@@ -20,7 +20,7 @@ public class AuctionSniperTest {
 	private final Auction auction = context.mock(Auction.class);
 	private final SniperListener sniperListener = context.mock(SniperListener.class);
 	private final AuctionSniper sniper = new AuctionSniper(ITEM_ID, auction, sniperListener);
-	private final States sniperState = context.states("sniper");
+	private final States sniperSnapshot = context.states("sniper");
 
 	@Test public void
 	reportsLostWhenAuctionClosedImmediately() {
@@ -35,10 +35,10 @@ public class AuctionSniperTest {
 	reportsLostWhenAuctionClosedWhenBidding() {
 		context.checking(new Expectations() {{
 			ignoring(auction);
-			allowing(sniperListener).sniperBidding(with(any(SniperState.class)));
-				then(sniperState.is("bidding"));
+			allowing(sniperListener).sniperBidding(with(any(SniperSnapshot.class)));
+				then(sniperSnapshot.is("bidding"));
 			atLeast(1).of(sniperListener).sniperLost();
-				when(sniperState.is("bidding"));
+				when(sniperSnapshot.is("bidding"));
 		}});
 
 		sniper.currentPrice(123, 45, PriceSource.FromOtherBidder);
@@ -49,8 +49,8 @@ public class AuctionSniperTest {
 	reportsWonWhenAuctionClosedWhenWinning() {
 		context.checking(new Expectations() {{
 			ignoring(auction);
-			allowing(sniperListener).sniperWinning(); then(sniperState.is("winning"));
-			atLeast(1).of(sniperListener).sniperWon(); when(sniperState.is("winning"));
+			allowing(sniperListener).sniperWinning(); then(sniperSnapshot.is("winning"));
+			atLeast(1).of(sniperListener).sniperWon(); when(sniperSnapshot.is("winning"));
 		}});
 
 		sniper.currentPrice(123, 45, PriceSource.FromSniper);
@@ -64,7 +64,7 @@ public class AuctionSniperTest {
 		final int bid = price + increment;
 		context.checking(new Expectations() {{
 			one(auction).bid(price+increment);
-			atLeast(1).of(sniperListener).sniperBidding(new SniperState(ITEM_ID, price, bid));
+			atLeast(1).of(sniperListener).sniperBidding(new SniperSnapshot(ITEM_ID, price, bid));
 		}});
 
 		sniper.currentPrice(price, increment, PriceSource.FromOtherBidder);
