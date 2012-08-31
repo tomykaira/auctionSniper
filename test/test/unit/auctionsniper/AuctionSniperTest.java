@@ -31,12 +31,20 @@ public class AuctionSniperTest {
 	bidsHigherAndReportsBiddingWhenNewPriceArrives() {
 		final int price = 1001;
 		final int increment = 25;
-		final PriceSource UNUSED_SOURCE = null;
 		context.checking(new Expectations() {{
 			one(auction).bid(price+increment);
 			atLeast(1).of(sniperListener).sniperBidding();
 		}});
 
-		sniper.currentPrice(price, increment, UNUSED_SOURCE);
+		sniper.currentPrice(price, increment, PriceSource.FromOtherBidder);
+	}
+
+	@Test public void
+	reportsIsWinningWhenCurrentPriceComesFromSniper() {
+		context.checking(new Expectations() {{
+			atLeast(1).of(sniperListener).sniperWinning();
+		}});
+
+		sniper.currentPrice(200, 10, PriceSource.FromSniper);
 	}
 }
