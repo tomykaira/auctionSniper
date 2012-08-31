@@ -65,7 +65,7 @@ public class Main {
 					}
 				});
 		this.notToBeGCd = chat;
-		chat.sendMessage(new Message());
+		chat.sendMessage(JOIN_COMMAND_FORMAT);
 
 	}
 
