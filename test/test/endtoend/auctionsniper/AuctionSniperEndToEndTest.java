@@ -5,9 +5,9 @@ import org.junit.Test;
 
 public class AuctionSniperEndToEndTest {
 	private final FakeAuctionServer auction = new FakeAuctionServer("item-54321");
-	
+
 	private final ApplicationRunner application = new ApplicationRunner();
-	
+
 	@Test
 	public void sniperJoinsAuctionUntilAuctionCloses() throws Exception {
 		auction.startSellingItem();
@@ -16,8 +16,8 @@ public class AuctionSniperEndToEndTest {
 		auction.announceClosed();
 		application.showsSniperHasLotAcution();
 	}
-	
-	@After 
+
+	@After
 	public void stopAuction() {
 		auction.stop();
 	}
