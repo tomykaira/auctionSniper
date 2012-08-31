@@ -159,6 +159,12 @@ public class Main {
 			showStatus(MainWindow.STATUS_WON);
 		}
 
+		@Override
+		public void sniperStateChanged(SniperSnapshot sniperSnapshot) {
+			// TODO Auto-generated method stub
+			
+		}
+
 	}
 
 }
