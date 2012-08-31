@@ -4,7 +4,6 @@ package auctionsniper;
 public class AuctionSniper implements AuctionEventListener {
 	private SniperListener sniperListener;
 	private Auction auction;
-	private boolean isWinning = false;
 	private SniperSnapshot snapshot;
 
 	public AuctionSniper(String itemId, Auction auction, SniperListener sniperListener) {
@@ -15,23 +14,26 @@ public class AuctionSniper implements AuctionEventListener {
 
 	@Override
 	public void auctionClosed() {
-		if (isWinning) {
-			sniperListener.sniperWon();
-		} else {
-			sniperListener.sniperLost();
-		}
+		snapshot = snapshot.closed();
+		notifyChange();
 	}
 
 	@Override
 	public void currentPrice(int price, int increment, PriceSource source) {
-		isWinning = source == PriceSource.FromSniper;
-		if (isWinning) {
+		switch(source) {
+		case FromSniper:
 			snapshot = snapshot.winning(price);
-		} else {
+			break;
+		case FromOtherBidder:
 			int bid = price + increment;
 			auction.bid(bid);
 			snapshot = snapshot.bidding(price, bid);
+			break;
 		}
+		notifyChange();
+	}
+
+	private void notifyChange() {
 		sniperListener.sniperStateChanged(snapshot);
 	}
 }
