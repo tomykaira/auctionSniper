@@ -9,6 +9,14 @@ public class SnipersTableModel extends AbstractTableModel {
 	private static final SniperSnapshot STARTING_UP = new SniperSnapshot("", 0, 0, SniperState.JOINING);
 	private String statusText = MainWindow.STATUS_JOINING;
 	private SniperSnapshot sniperSnapshot = STARTING_UP;
+	
+	private static String[] STATUS_TEXT = {
+		MainWindow.STATUS_JOINING,
+		MainWindow.STATUS_BIDDING,
+		MainWindow.STATUS_WINNING,
+		MainWindow.STATUS_LOST,
+		MainWindow.STATUS_WON
+	};
 
 	@Override
 	public int getColumnCount() {
@@ -38,9 +46,9 @@ public class SnipersTableModel extends AbstractTableModel {
 		fireTableRowsUpdated(0, 0);
 	}
 
-	public void sniperStatusChanged(SniperSnapshot newSnapshot, String newStatusText) {
+	public void sniperStatusChanged(SniperSnapshot newSnapshot) {
 		sniperSnapshot = newSnapshot;
-		statusText = newStatusText;
+		statusText = STATUS_TEXT[newSnapshot.state.ordinal()];
 		fireTableRowsUpdated(0, 0);
 	}
 }

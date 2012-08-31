@@ -126,30 +126,11 @@ public class Main {
 			showStatus(MainWindow.STATUS_LOST);
 		}
 
-		@Override
-		public void sniperWinning() {
-			showStatus(MainWindow.STATUS_WINNING);
-		}
-
-		@Override
-		public void sniperBidding(SniperSnapshot snapshot) {
-			sniperStatusChanged(snapshot, MainWindow.STATUS_BIDDING);
-		}
-
 		private void showStatus(final String statusText) {
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
 					ui.showStatus(statusText);
-				}
-			});
-		}
-
-		private void sniperStatusChanged(final SniperSnapshot sniperSnapshot, final String statusText) {
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					ui.sniperStatusChanged(sniperSnapshot, statusText);
 				}
 			});
 		}
@@ -160,9 +141,13 @@ public class Main {
 		}
 
 		@Override
-		public void sniperStateChanged(SniperSnapshot sniperSnapshot) {
-			// TODO Auto-generated method stub
-			
+		public void sniperStateChanged(final SniperSnapshot sniperSnapshot) {
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					ui.sniperStatusChanged(sniperSnapshot);
+				}
+			});
 		}
 
 	}
