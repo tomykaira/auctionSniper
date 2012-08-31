@@ -7,15 +7,10 @@ import auctionsniper.SniperState;
 
 public class SnipersTableModel extends AbstractTableModel {
 	private static final SniperSnapshot STARTING_UP = new SniperSnapshot("", 0, 0, SniperState.JOINING);
-	private String statusText = MainWindow.STATUS_JOINING;
 	private SniperSnapshot sniperSnapshot = STARTING_UP;
 	
 	private static String[] STATUS_TEXT = {
-		MainWindow.STATUS_JOINING,
-		MainWindow.STATUS_BIDDING,
-		MainWindow.STATUS_WINNING,
-		MainWindow.STATUS_LOST,
-		MainWindow.STATUS_WON
+		"Joining", "Bidding", "Winning", "Lost", "Won"
 	};
 
 	@Override
@@ -35,7 +30,7 @@ public class SnipersTableModel extends AbstractTableModel {
 		case LAST_BID:
 			return sniperSnapshot.lastBid;
 		case SNIPER_STATE:
-			return statusText;
+			return textFor(sniperSnapshot.state);
 		default :
 			throw new IllegalArgumentException("No column at " + columnIndex);
 		}
@@ -43,7 +38,10 @@ public class SnipersTableModel extends AbstractTableModel {
 
 	public void sniperStateChanged(SniperSnapshot newSnapshot) {
 		sniperSnapshot = newSnapshot;
-		statusText = STATUS_TEXT[newSnapshot.state.ordinal()];
 		fireTableRowsUpdated(0, 0);
+	}
+
+	public static String textFor(SniperState state) {
+		return STATUS_TEXT[state.ordinal()];
 	}
 }
