@@ -57,7 +57,7 @@ public class Main {
 		this.notToBeGCd = chat;
 
 		Auction auction = new XMPPAuction(chat);
-		chat.addMessageListener(new AuctionMessageTranslator("",
+		chat.addMessageListener(new AuctionMessageTranslator(connection.getUser(),
 				new AuctionSniper(auction, new SniperStateDisplayer())));
 		auction.join();
 	}
